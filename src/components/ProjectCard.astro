@@ -1,0 +1,27 @@
+---
+interface Props {
+  slug: string;
+  titulo: string;
+  resumo: string;
+  stack: string[];
+  destaque?: boolean;
+}
+const { slug, titulo, resumo, stack, destaque = false } = Astro.props;
+---
+
+<a
+  href={`/projetos/${slug}`}
+  class="group flex h-full flex-col rounded-xl border border-border bg-surface p-5 transition hover:-translate-y-0.5 hover:border-accent"
+>
+  <div class="mb-3 flex items-center justify-between font-mono text-xs text-muted">
+    <span>projetos/{slug}</span>
+    {destaque && <span class="rounded border border-accent-2 px-1.5 py-0.5 text-accent-2">destaque</span>}
+  </div>
+  <h3 class="text-lg font-semibold group-hover:text-accent">{titulo}</h3>
+  <p class="mt-2 flex-1 text-sm text-muted">{resumo}</p>
+  <ul class="mt-4 flex flex-wrap gap-2 font-mono text-xs text-accent">
+    {stack.map((t) => (
+      <li class="rounded bg-bg px-2 py-1">{t}</li>
+    ))}
+  </ul>
+</a>

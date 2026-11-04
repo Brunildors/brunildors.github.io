@@ -1,0 +1,23 @@
+---
+import '../styles/global.css';
+import { perfil } from '../data/perfil';
+---
+
+<!-- Página interna: o script scripts/gerar-assets.mjs tira um print dela (1200x630) para virar public/og-image.png -->
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>og</title>
+  </head>
+  <body style="margin:0">
+    <div style="width:1200px;height:630px;display:flex;flex-direction:column;justify-content:center;padding:0 90px;box-sizing:border-box;background:#0B0F14">
+      <p style="font-family:var(--font-mono);color:#22D3EE;font-size:30px;margin:0">&lt;LucasLira/&gt;</p>
+      <h1 style="font-size:78px;line-height:1.05;margin:24px 0 0;font-weight:800">{perfil.nome}</h1>
+      <p style="font-size:38px;color:#A78BFA;margin:20px 0 0">{perfil.cargo}</p>
+      <p style="font-family:var(--font-mono);font-size:26px;color:#9AA4B2;margin:16px 0 0">
+        {perfil.subtitulo}
+      </p>
+    </div>
+  </body>
+</html>

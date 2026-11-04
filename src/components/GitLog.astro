@@ -1,0 +1,31 @@
+---
+import { experiencias } from '../data/perfil';
+---
+
+<div class="rounded-xl border border-border bg-surface p-5 font-mono text-sm">
+  <p class="mb-4 text-muted">$ git log --oneline --graph</p>
+  <ol class="space-y-6">
+    {experiencias.map((e) => (
+      <li class="flex gap-3">
+        <span class="text-accent" aria-hidden="true">
+          *
+        </span>
+        <div>
+          <p>
+            <span class="text-accent-2">{e.hash}</span>
+            <span class="ml-2 font-sans text-base font-semibold text-text">{e.cargo}</span>
+          </p>
+          <p class="text-muted">
+            @ {e.empresa} · {e.periodo}
+          </p>
+          <p class="mt-2 font-sans text-text/90">{e.resumo}</p>
+          <ul class="mt-2 flex flex-wrap gap-2 text-xs text-accent">
+            {e.tags.map((t) => (
+              <li class="rounded bg-bg px-2 py-1">{t}</li>
+            ))}
+          </ul>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

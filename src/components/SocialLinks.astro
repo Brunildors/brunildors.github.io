@@ -1,0 +1,28 @@
+---
+import { Icon } from 'astro-icon/components';
+import { redesAtivas } from '../data/redes';
+
+interface Props {
+  comRotulo?: boolean;
+}
+const { comRotulo = false } = Astro.props;
+---
+
+{redesAtivas.length > 0 && (
+  <ul class="flex flex-wrap items-center gap-3">
+    {redesAtivas.map((r) => (
+      <li>
+        <a
+          href={r.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={r.nome}
+          class="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-muted transition hover:border-accent hover:text-accent"
+        >
+          <Icon name={r.icone} class="size-5" aria-hidden="true" />
+          {comRotulo && <span class="text-sm">{r.nome}</span>}
+        </a>
+      </li>
+    ))}
+  </ul>
+)}

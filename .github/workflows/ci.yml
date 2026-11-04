@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  qualidade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run check
+      - run: npm run build
+
+      # Nos PRs para a main, nenhum marcador de pendência pode ir para produção.
+      - name: Bloquear [TODO: no site publicado
+        if: github.base_ref == 'main'
+        run: |
+          if grep -rIl --include='*.html' '\[TODO:' dist; then
+            echo "::error::Ainda há marcadores [TODO: no site (arquivos acima)."
+            exit 1
+          fi
+
+      - name: Checar links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --offline --root-dir ${{ github.workspace }}/dist 'dist/**/*.html'
+          fail: true

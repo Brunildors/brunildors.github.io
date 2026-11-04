@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import GitLog from '../components/GitLog.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { perfil, formacao, cursos, stack } from '../data/perfil';
+
+const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort(
+  (a, b) => a.data.ordem - b.data.ordem,
+);
+---
+
+<BaseLayout jsonLd>
+  <Header />
+  <main id="conteudo">
+    <Hero />
+
+    <section id="sobre-sec" class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="sobre">
+      <SectionTitle id="sobre" num="01" titulo="sobre" />
+      <div class="max-w-prose space-y-4 text-text/90">
+        {perfil.bio.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        {stack.map((g) => (
+          <div class="rounded-xl border border-border bg-surface p-4">
+            <h3 class="font-mono text-sm text-accent-2">{g.grupo}</h3>
+            <ul class="mt-3 flex flex-wrap gap-2 text-sm">
+              {g.itens.map((i) => (
+                <li class="rounded bg-bg px-2 py-1 text-muted">{i}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="projetos">
+      <SectionTitle id="projetos" num="02" titulo="projetos" />
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {projetos.map((p) => (
+          <li>
+            <ProjectCard
+              slug={p.id}
+              titulo={p.data.titulo}
+              resumo={p.data.resumo}
+              stack={p.data.stack}
+              destaque={p.data.destaque}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="experiencia">
+      <SectionTitle id="experiencia" num="03" titulo="experiencia" />
+      <GitLog />
+    </section>
+
+    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="formacao">
+      <SectionTitle id="formacao" num="04" titulo="formacao" />
+      <ul class="grid gap-4 sm:grid-cols-3">
+        {formacao.map((f) => (
+          <li class="rounded-xl border border-border bg-surface p-4">
+            <p class="font-semibold">{f.curso}</p>
+            <p class="mt-1 text-sm text-muted">{f.instituicao}</p>
+            <p class="mt-2 font-mono text-xs text-accent">
+              {f.periodo} · {f.status}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="mt-10 mb-4 font-mono text-lg text-accent-2">cursos</h3>
+      <ul class="grid gap-3 sm:grid-cols-3">
+        {cursos.map((c) => (
+          <li class="rounded-lg border border-border bg-surface px-4 py-3 text-sm">
+            <p>{c.nome}</p>
+            <p class="text-xs text-muted">{c.plataforma}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="contato">
+      <SectionTitle id="contato" num="05" titulo="contato" />
+      <Contact />
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

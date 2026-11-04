@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+---
+
+<BaseLayout title="Página não encontrada | Lucas Silva de Lira" noindex>
+  <Header />
+  <main id="conteudo" class="mx-auto max-w-3xl px-5 py-24 font-mono">
+    <p class="text-muted">$ cd {Astro.url.pathname}</p>
+    <p class="mt-2 text-accent-2">bash: página: command not found</p>
+    <h1 class="mt-8 font-sans text-3xl font-bold">404 — página não encontrada</h1>
+    <a href="/" class="mt-6 inline-block rounded-lg bg-accent px-5 py-2.5 font-sans font-semibold text-bg">
+      Voltar ao início
+    </a>
+  </main>
+</BaseLayout>

@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import { perfil } from '../data/perfil';
+import { redesAtivas } from '../data/redes';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  jsonLd?: boolean;
+}
+
+const {
+  title = `${perfil.nome} | ${perfil.cargo}`,
+  description = perfil.descricao,
+  noindex = false,
+  jsonLd = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og-image.png', Astro.site);
+
+const pessoa = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: perfil.nome,
+  jobTitle: perfil.cargo,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Praia Grande',
+    addressRegion: 'SP',
+    addressCountry: 'BR',
+  },
+  url: Astro.site?.href,
+  sameAs: redesAtivas.map((r) => r.url),
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0B0F14" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(pessoa)} />}
+  </head>
+  <body>
+    <a
+      href="#conteudo"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:text-bg"
+    >
+      Pular para o conteúdo
+    </a>
+    <slot />
+  </body>
+</html>
