@@ -19,7 +19,6 @@ export const perfil = {
 
 export const experiencias = [
   {
-    hash: 'a1b2c3d',
     empresa: 'Ellicon Assessoria Contábil',
     cargo: 'Analista e desenvolvedor de sistemas com LLMs (IA)',
     periodo: '[TODO: mês/ano] — atual',
@@ -28,7 +27,6 @@ export const experiencias = [
     tags: ['Claude Code', 'Codex', 'n8n', 'LLMs'],
   },
   {
-    hash: '9f8e7d6',
     empresa: 'Ellicon Assessoria Contábil',
     cargo: 'Financeiro',
     periodo: '[TODO: mês/ano] — atual',

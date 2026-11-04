@@ -7,9 +7,11 @@ interface Props {
 const { num, titulo, id } = Astro.props;
 ---
 
-<h2 id={id} class="mb-8 font-mono text-2xl font-semibold text-text sm:text-3xl">
-  <span class="text-muted" aria-hidden="true">
-    // {num}.
-  </span>
-  <span class="text-accent">{titulo}</span>
-</h2>
+<div class="mb-10">
+  <p class="font-mono text-sm text-accent" aria-hidden="true">
+    {num}
+  </p>
+  <h2 id={id} class="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
+    {titulo}
+  </h2>
+</div>

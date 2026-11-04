@@ -5,7 +5,7 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import GitLog from '../components/GitLog.astro';
+import Timeline from '../components/Timeline.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import { perfil, formacao, cursos, stack } from '../data/perfil';
@@ -20,18 +20,18 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
   <main id="conteudo">
     <Hero />
 
-    <section id="sobre-sec" class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="sobre">
-      <SectionTitle id="sobre" num="01" titulo="sobre" />
-      <div class="max-w-prose space-y-4 text-text/90">
+    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="sobre">
+      <SectionTitle id="sobre" num="01" titulo="Sobre" />
+      <div class="max-w-prose space-y-4 text-lg text-text/90">
         {perfil.bio.map((p) => (
           <p>{p}</p>
         ))}
       </div>
-      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+      <div class="mt-10 grid gap-4 sm:grid-cols-3">
         {stack.map((g) => (
-          <div class="rounded-xl border border-border bg-surface p-4">
-            <h3 class="font-mono text-sm text-accent-2">{g.grupo}</h3>
-            <ul class="mt-3 flex flex-wrap gap-2 text-sm">
+          <div class="rounded-2xl border border-border bg-surface p-5">
+            <h3 class="text-sm font-semibold text-accent-2">{g.grupo}</h3>
+            <ul class="mt-3 flex flex-wrap gap-2 font-mono text-xs">
               {g.itens.map((i) => (
                 <li class="rounded bg-bg px-2 py-1 text-muted">{i}</li>
               ))}
@@ -41,9 +41,9 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
       </div>
     </section>
 
-    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="projetos">
-      <SectionTitle id="projetos" num="02" titulo="projetos" />
-      <ul class="grid gap-4 sm:grid-cols-2">
+    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="projetos">
+      <SectionTitle id="projetos" num="02" titulo="Projetos" />
+      <ul class="grid gap-6 sm:grid-cols-2">
         {projetos.map((p) => (
           <li>
             <ProjectCard
@@ -51,36 +51,38 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
               titulo={p.data.titulo}
               resumo={p.data.resumo}
               stack={p.data.stack}
+              ordem={p.data.ordem}
               destaque={p.data.destaque}
+              capa={p.data.capa}
             />
           </li>
         ))}
       </ul>
     </section>
 
-    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="experiencia">
-      <SectionTitle id="experiencia" num="03" titulo="experiencia" />
-      <GitLog />
+    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="experiencia">
+      <SectionTitle id="experiencia" num="03" titulo="Experiência" />
+      <Timeline />
     </section>
 
-    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="formacao">
-      <SectionTitle id="formacao" num="04" titulo="formacao" />
+    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="formacao">
+      <SectionTitle id="formacao" num="04" titulo="Formação e cursos" />
       <ul class="grid gap-4 sm:grid-cols-3">
         {formacao.map((f) => (
-          <li class="rounded-xl border border-border bg-surface p-4">
+          <li class="rounded-2xl border border-border bg-surface p-5">
             <p class="font-semibold">{f.curso}</p>
             <p class="mt-1 text-sm text-muted">{f.instituicao}</p>
-            <p class="mt-2 font-mono text-xs text-accent">
+            <p class="mt-3 text-xs text-accent">
               {f.periodo} · {f.status}
             </p>
           </li>
         ))}
       </ul>
 
-      <h3 class="mt-10 mb-4 font-mono text-lg text-accent-2">cursos</h3>
+      <h3 class="mt-12 mb-4 text-lg font-semibold">Cursos</h3>
       <ul class="grid gap-3 sm:grid-cols-3">
         {cursos.map((c) => (
-          <li class="rounded-lg border border-border bg-surface px-4 py-3 text-sm">
+          <li class="rounded-xl border border-border bg-surface px-4 py-3 text-sm">
             <p>{c.nome}</p>
             <p class="text-xs text-muted">{c.plataforma}</p>
           </li>
@@ -88,8 +90,8 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
       </ul>
     </section>
 
-    <section class="mx-auto max-w-5xl px-5 py-12" aria-labelledby="contato">
-      <SectionTitle id="contato" num="05" titulo="contato" />
+    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="contato">
+      <SectionTitle id="contato" num="05" titulo="Contato" />
       <Contact />
     </section>
   </main>

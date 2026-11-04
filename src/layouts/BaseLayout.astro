@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import { perfil } from '../data/perfil';
 import { redesAtivas } from '../data/redes';
 
@@ -48,6 +49,7 @@ const pessoa = {
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {noindex && <meta name="robots" content="noindex" />}
+    <ClientRouter />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
