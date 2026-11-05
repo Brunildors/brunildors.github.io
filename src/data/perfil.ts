@@ -1,9 +1,12 @@
+const cidade = 'Praia Grande';
+const uf = 'SP';
+
 export const perfil = {
   nome: 'Lucas Silva de Lira',
   cargo: 'Desenvolvedor de Sistemas com IA',
-  cidade: 'Praia Grande',
-  uf: 'SP',
-  local: 'Praia Grande, SP',
+  cidade,
+  uf,
+  local: `${cidade}, ${uf}`,
   valor: 'Construo sistemas com LLMs e agentes de IA que automatizam processos reais de empresas.',
   descricao:
     'Lucas Silva de Lira, desenvolvedor de sistemas com IA em Praia Grande, SP. Automação, sistemas multiagentes e LLMs.',

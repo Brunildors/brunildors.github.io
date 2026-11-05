@@ -38,7 +38,13 @@ const { slug, titulo, resumo, stack, capa, repositorio, demo } = Astro.props;
     </div>
   </div>
   {capa && (
-    <Image src={capa} alt={`Tela do projeto ${titulo}`} width={520} height={293} class="capa moldura" />
+    <Image
+      src={capa}
+      alt={`Tela do projeto ${titulo}`}
+      width={520}
+      height={Math.round((520 * capa.height) / capa.width)}
+      class="capa moldura"
+    />
   )}
 </article>
 

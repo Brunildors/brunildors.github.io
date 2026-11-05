@@ -27,7 +27,7 @@ const projetos = await projetosPublicados();
         {contatos.map((c, i) => (
           <>
             {i > 0 && ' · '}
-            <a href={c.url}>{c.exibicao}</a>
+            {c.nome}: <a href={c.url}>{c.exibicao}</a>
           </>
         ))}
       </p>

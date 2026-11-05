@@ -21,7 +21,8 @@ jobs:
       - run: npm run build
 
       # Nos PRs para a main, nenhum marcador de pendência pode ir para produção.
-      # Procura no código-fonte (dados, projetos e páginas), então também cobre o que alimenta o CV.
+      # Procura no código-fonte (dados, projetos e páginas). O PDF do CV é um arquivo gerado:
+      # rode `npm run assets` antes do PR para ele não carregar um marcador antigo.
       - name: 'Bloquear "[TODO:" antes de ir para produção'
         if: github.base_ref == 'main'
         run: |

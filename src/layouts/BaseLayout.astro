@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { Font } from 'astro:assets';
 import { perfil } from '../data/perfil';
-import { redes } from '../data/redes';
+import { perfisPublicos } from '../data/redes';
 
 interface Props {
   title?: string;
@@ -33,7 +33,7 @@ const pessoa = {
     addressCountry: 'BR',
   },
   url: Astro.site?.href,
-  sameAs: redes.map((r) => r.url),
+  sameAs: perfisPublicos,
 };
 ---
 

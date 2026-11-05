@@ -25,19 +25,21 @@ const projetos = await projetosPublicados();
       <Experience />
     </Section>
     <Section id="projetos" titulo="Projetos">
-      <div class="projetos">
+      <ul class="projetos">
         {projetos.map((p) => (
-          <ProjectItem
-            slug={p.id}
-            titulo={p.data.titulo}
-            resumo={p.data.resumo}
-            stack={p.data.stack}
-            capa={p.data.capa}
-            repositorio={p.data.repositorio}
-            demo={p.data.demo}
-          />
+          <li>
+            <ProjectItem
+              slug={p.id}
+              titulo={p.data.titulo}
+              resumo={p.data.resumo}
+              stack={p.data.stack}
+              capa={p.data.capa}
+              repositorio={p.data.repositorio}
+              demo={p.data.demo}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
     </Section>
     <Section id="formacao" titulo="Formação e cursos">
       <Education />
@@ -55,7 +57,7 @@ const projetos = await projetosPublicados();
     gap: 2.5rem;
   }
 
-  .projetos > :global(article + article) {
+  .projetos > li + li {
     padding-top: 2.5rem;
     border-top: 1px solid var(--linha);
   }

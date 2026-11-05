@@ -12,6 +12,8 @@ export interface Contato {
   url: string;
   /** Atalho curto do próprio site. Só as redes externas têm (o e-mail não). */
   atalho?: string;
+  /** Perfil público de pessoa (vai no `sameAs` do SEO). WhatsApp e e-mail não são. */
+  perfilPublico?: boolean;
 }
 
 /** Ordem dos botões no hero e na seção Contato. */
@@ -28,6 +30,7 @@ export const contatos: Contato[] = [
     icone: 'tabler:brand-github',
     url: 'https://github.com/Brunildors',
     atalho: '/github',
+    perfilPublico: true,
   },
   {
     nome: 'LinkedIn',
@@ -35,6 +38,7 @@ export const contatos: Contato[] = [
     icone: 'tabler:brand-linkedin',
     url: 'https://www.linkedin.com/in/lucas-silva-de-lira-00a8a8427/',
     atalho: '/linkedin',
+    perfilPublico: true,
   },
   {
     nome: 'WhatsApp',
@@ -45,5 +49,8 @@ export const contatos: Contato[] = [
   },
 ];
 
-/** Só os contatos com atalho próprio: perfis públicos (sameAs do SEO) e redirecionamentos. */
+/** Contatos com atalho próprio, que viram redirecionamentos 301. */
 export const redes = contatos.filter((c): c is Contato & { atalho: string } => Boolean(c.atalho));
+
+/** URLs de perfis públicos, para o `sameAs` do SEO. */
+export const perfisPublicos = contatos.filter((c) => c.perfilPublico).map((c) => c.url);

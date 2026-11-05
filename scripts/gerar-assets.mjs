@@ -4,7 +4,7 @@
 import { execSync } from 'node:child_process';
 import { createServer } from 'node:http';
 import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
-import { extname, join, normalize } from 'node:path';
+import { extname, join, normalize, sep } from 'node:path';
 import { chromium } from 'playwright-core';
 
 const candidatos = [
@@ -34,16 +34,23 @@ const tipos = {
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.jpg': 'image/jpeg',
+  '.ico': 'image/x-icon',
+  '.xml': 'application/xml',
+  '.txt': 'text/plain; charset=utf-8',
 };
 const raiz = join(process.cwd(), 'dist');
 const servidor = createServer((req, res) => {
-  const caminho = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname));
-  let arquivo = join(raiz, caminho);
-  if (!arquivo.startsWith(raiz)) return res.writeHead(403).end();
-  if (existsSync(arquivo) && statSync(arquivo).isDirectory()) arquivo = join(arquivo, 'index.html');
-  if (!existsSync(arquivo)) return res.writeHead(404).end('não encontrado');
-  res.writeHead(200, { 'Content-Type': tipos[extname(arquivo)] ?? 'application/octet-stream' });
-  res.end(readFileSync(arquivo));
+  try {
+    const caminho = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname));
+    let arquivo = join(raiz, caminho);
+    if (arquivo !== raiz && !arquivo.startsWith(raiz + sep)) return res.writeHead(403).end();
+    if (existsSync(arquivo) && statSync(arquivo).isDirectory()) arquivo = join(arquivo, 'index.html');
+    if (!existsSync(arquivo)) return res.writeHead(404).end('não encontrado');
+    res.writeHead(200, { 'Content-Type': tipos[extname(arquivo)] ?? 'application/octet-stream' });
+    res.end(readFileSync(arquivo));
+  } catch {
+    res.writeHead(400).end('requisição inválida');
+  }
 });
 await new Promise((ok) => servidor.listen(0, '127.0.0.1', ok));
 const base = `http://127.0.0.1:${servidor.address().port}`;
@@ -63,5 +70,6 @@ try {
   console.log('✔ public/og-image.png');
 } finally {
   await browser.close();
+  servidor.closeAllConnections();
   servidor.close();
 }
