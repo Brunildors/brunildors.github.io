@@ -1,0 +1,46 @@
+---
+interface Props {
+  id: string;
+  titulo: string;
+}
+const { id, titulo } = Astro.props;
+---
+
+<section class="secao" aria-labelledby={id}>
+  <div class="container miolo">
+    <h2 id={id}>{titulo}</h2>
+    <div class="conteudo">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* A linha de cima separa esta seção da anterior. */
+  .secao {
+    border-top: 2px solid var(--linha);
+    padding-block: 3.5rem;
+  }
+
+  .miolo {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .conteudo {
+    min-width: 0;
+  }
+
+  @media (min-width: 52rem) {
+    .miolo {
+      grid-template-columns: 11rem 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

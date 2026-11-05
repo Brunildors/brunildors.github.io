@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import foto from '../assets/foto-perfil.jpg';
+import { perfil, competencias } from '../data/perfil';
+---
+
+<div class="sobre">
+  <Image
+    src={foto}
+    alt="Foto de rosto de Lucas Silva de Lira"
+    width={220}
+    height={220}
+    densities={[1, 2]}
+    class="foto"
+  />
+  <div class="texto">
+    {perfil.bio.map((p) => (
+      <p>{p}</p>
+    ))}
+  </div>
+</div>
+
+<dl class="competencias">
+  {competencias.map((g) => (
+    <div>
+      <dt>{g.grupo}</dt>
+      <dd class="mono">{g.itens.join(', ')}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .sobre {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .sobre :global(.foto) {
+    width: 11rem;
+    height: 11rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    border: 1px solid var(--linha);
+  }
+
+  .texto {
+    display: grid;
+    gap: 1rem;
+    max-width: 38rem;
+  }
+
+  .competencias {
+    display: grid;
+    gap: 0.75rem;
+    margin: 2.5rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--linha);
+  }
+
+  .competencias div {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  dt {
+    color: var(--suave);
+    font-size: 0.9rem;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  @media (min-width: 40rem) {
+    .sobre {
+      grid-template-columns: 11rem 1fr;
+      gap: 2rem;
+    }
+
+    .competencias div {
+      grid-template-columns: 11rem 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

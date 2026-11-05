@@ -1,8 +1,8 @@
 ---
-import '../styles/global.css';
-import { perfil, experiencias, formacao, cursos, stack } from '../data/perfil';
-import { redesAtivas } from '../data/redes';
+import { Font } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import { perfil, experiencias, formacao, cursos, competencias } from '../data/perfil';
+import { contatos } from '../data/redes';
 
 const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort(
   (a, b) => a.data.ordem - b.data.ordem,
@@ -15,53 +15,9 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>{perfil.nome} — Currículo</title>
-    <style is:global>
-      @page {
-        size: A4;
-        margin: 14mm;
-      }
-      .cv {
-        background: #fff;
-        color: #111;
-        font-size: 10.5pt;
-        line-height: 1.45;
-        max-width: 190mm;
-        margin: 0 auto;
-        padding: 10mm;
-      }
-      .cv h1 {
-        font-size: 20pt;
-        margin: 0;
-      }
-      .cv h2 {
-        font-size: 11pt;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        border-bottom: 1px solid #999;
-        margin: 14pt 0 6pt;
-        padding-bottom: 2pt;
-      }
-      .cv p,
-      .cv ul {
-        margin: 0 0 4pt;
-      }
-      .cv ul {
-        padding-left: 14pt;
-        list-style: disc;
-      }
-      .cv a {
-        color: #111;
-        text-decoration: underline;
-      }
-      .cv .sub {
-        color: #444;
-      }
-      html,
-      body {
-        background: #fff;
-      }
-    </style>
+    <title>{perfil.nome} – Currículo</title>
+    <Font cssVariable="--fonte-texto" />
+    <Font cssVariable="--fonte-mono" />
   </head>
   <body>
     <main class="cv">
@@ -69,13 +25,12 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
       <p class="sub">
         {perfil.cargo} · {perfil.local}
       </p>
-      <p class="sub">
-        {perfil.email ?? '[TODO: e-mail público]'}
-        {redesAtivas.map((r) => (
-          <span>
-            {' '}
-            · <a href={r.url}>{r.nome}</a>
-          </span>
+      <p class="sub contatos">
+        {contatos.map((c, i) => (
+          <>
+            {i > 0 && ' · '}
+            <a href={c.url}>{c.exibicao}</a>
+          </>
         ))}
       </p>
 
@@ -86,9 +41,9 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
 
       <h2>Experiência</h2>
       {experiencias.map((e) => (
-        <div>
+        <div class="item">
           <p>
-            <strong>{e.cargo}</strong> — {e.empresa} <span class="sub">({e.periodo})</span>
+            <strong>{e.cargo}</strong>, {e.empresa} <span class="sub">({e.periodo})</span>
           </p>
           <p>{e.resumo}</p>
         </div>
@@ -98,7 +53,7 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
       <ul>
         {projetos.map((p) => (
           <li>
-            <strong>{p.data.titulo}</strong> — {p.data.resumo} ({p.data.stack.join(', ')})
+            <strong>{p.data.titulo}</strong>. {p.data.resumo} ({p.data.stack.join(', ')})
           </li>
         ))}
       </ul>
@@ -107,7 +62,7 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
       <ul>
         {formacao.map((f) => (
           <li>
-            {f.curso} — {f.instituicao} ({f.periodo})
+            {f.curso}, {f.instituicao} ({f.periodo})
           </li>
         ))}
       </ul>
@@ -115,12 +70,14 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
       <h2>Cursos</h2>
       <ul>
         {cursos.map((c) => (
-          <li>{c.nome}</li>
+          <li>
+            {c.nome}, {c.plataforma}
+          </li>
         ))}
       </ul>
 
       <h2>Competências</h2>
-      {stack.map((g) => (
+      {competencias.map((g) => (
         <p>
           <strong>{g.grupo}:</strong> {g.itens.join(', ')}
         </p>
@@ -128,3 +85,64 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
     </main>
   </body>
 </html>
+
+<style is:global>
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  @media print {
+    .cv {
+      padding: 0;
+    }
+  }
+
+  html,
+  body {
+    margin: 0;
+    background: #fff;
+  }
+
+  .cv {
+    max-width: 190mm;
+    margin: 0 auto;
+    padding: 10mm;
+    color: #111;
+    font-family: var(--fonte-texto), system-ui, sans-serif;
+    font-size: 10pt;
+    line-height: 1.33;
+  }
+
+  .cv h1 {
+    margin: 0;
+    font-size: 20pt;
+  }
+
+  .cv h2 {
+    margin: 10pt 0 5pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid #999;
+    font-size: 11pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cv p,
+  .cv ul {
+    margin: 0 0 4pt;
+  }
+
+  .cv ul {
+    padding-left: 14pt;
+    list-style: disc;
+  }
+
+  .cv a {
+    color: #111;
+  }
+
+  .cv .sub {
+    color: #444;
+  }
+</style>

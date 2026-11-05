@@ -2,8 +2,7 @@
 titulo: Hackathon UNISANTA 2026
 resumo: Aplicação web desenvolvida em equipe de 4 pessoas para o desafio da IPORT Solutions.
 stack: [Web, Claude Code, Codex]
-ordem: 2
-destaque: true
+ordem: 3
 papel: Desenvolvedor web em equipe de 4 pessoas
 contexto: Desafio proposto por IPORT Solutions
 ---

@@ -1,11 +1,10 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import type { AstroIntegration } from 'astro';
 import { writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
-import { redesAtivas } from './src/data/redes';
+import { redes } from './src/data/redes';
 
 /**
  * Atalhos curtos (/linkedin, /github…) gerados a partir de src/data/redes.ts.
@@ -16,8 +15,7 @@ const atalhosDasRedes = (): AstroIntegration => ({
   name: 'atalhos-das-redes',
   hooks: {
     'astro:build:done': async ({ dir }) => {
-      if (redesAtivas.length === 0) return;
-      const linhas = redesAtivas.map((r) => `${r.atalho} ${r.url} 301`).join('\n') + '\n';
+      const linhas = redes.map((r) => `${r.atalho} ${r.url} 301`).join('\n') + '\n';
       await writeFile(fileURLToPath(new URL('_redirects', dir)), linhas, 'utf8');
     },
   },
@@ -29,5 +27,24 @@ export default defineConfig({
   output: 'static',
   integrations: [sitemap({ filter: (page) => !/\/(og|cv)\/?$/.test(page) }), icon(), atalhosDasRedes()],
   i18n: { defaultLocale: 'pt-br', locales: ['pt-br'] },
-  vite: { plugins: [tailwindcss()] },
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: 'IBM Plex Sans',
+      cssVariable: '--fonte-texto',
+      weights: [400, 500, 600],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['system-ui', 'sans-serif'],
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: 'IBM Plex Mono',
+      cssVariable: '--fonte-mono',
+      weights: [400, 500],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['ui-monospace', 'monospace'],
+    },
+  ],
 });

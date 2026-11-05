@@ -3,34 +3,68 @@ import { perfil } from '../data/perfil';
 
 const links = [
   { href: '/#sobre', rotulo: 'Sobre' },
-  { href: '/#projetos', rotulo: 'Projetos' },
   { href: '/#experiencia', rotulo: 'Experiência' },
+  { href: '/#projetos', rotulo: 'Projetos' },
   { href: '/#contato', rotulo: 'Contato' },
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-border bg-bg/85 backdrop-blur">
-  <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-5 py-3">
-    <a href="/" class="text-lg font-bold tracking-tight" aria-label="Início">
-      Lucas<span class="text-accent">.</span>dev
+<header>
+  <div class="container barra">
+    <a href="/" class="nome">
+      {perfil.nome}
     </a>
-    <nav aria-label="Principal" class="order-3 w-full sm:order-none sm:w-auto">
-      <ul class="flex gap-1 text-sm text-muted">
+    <nav aria-label="Principal">
+      <ul>
         {links.map((l) => (
           <li>
-            <a href={l.href} class="block rounded-md px-3 py-1.5 transition hover:bg-surface hover:text-text">
-              {l.rotulo}
-            </a>
+            <a href={l.href}>{l.rotulo}</a>
           </li>
         ))}
       </ul>
     </nav>
-    <a
-      href={perfil.cv}
-      download
-      class="rounded-lg border border-accent px-3.5 py-1.5 text-sm font-medium text-accent transition hover:bg-accent hover:text-bg"
-    >
-      Baixar CV
-    </a>
   </div>
 </header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--fundo);
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem 1.5rem;
+    padding-block: 0.6rem;
+  }
+
+  .nome {
+    color: var(--texto);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  ul {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  nav a {
+    display: block;
+    padding: 0.4rem 0.7rem;
+    color: var(--suave);
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--texto);
+    text-decoration: underline;
+  }
+</style>

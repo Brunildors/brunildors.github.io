@@ -1,16 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
+import PillLink from '../components/PillLink.astro';
+import { perfil } from '../data/perfil';
 ---
 
-<BaseLayout title="Página não encontrada | Lucas Silva de Lira" noindex>
+<BaseLayout title={`Página não encontrada | ${perfil.nome}`} noindex>
   <Header />
-  <main id="conteudo" class="mx-auto max-w-3xl px-5 py-24 font-mono">
-    <p class="text-muted">$ cd {Astro.url.pathname}</p>
-    <p class="mt-2 text-accent-2">bash: página: command not found</p>
-    <h1 class="mt-8 font-sans text-3xl font-bold">404 — página não encontrada</h1>
-    <a href="/" class="mt-6 inline-block rounded-lg bg-accent px-5 py-2.5 font-sans font-semibold text-bg">
-      Voltar ao início
-    </a>
+  <main id="conteudo" class="container">
+    <p class="mono terminal">$ cd {Astro.url.pathname}</p>
+    <p class="mono terminal">bash: página: command not found</p>
+    <h1>404: página não encontrada</h1>
+    <p>O endereço que você abriu não existe ou foi movido.</p>
+    <div class="botao">
+      <PillLink href="/" icone="tabler:arrow-left" primario>
+        Voltar ao início
+      </PillLink>
+    </div>
   </main>
 </BaseLayout>
+
+<style>
+  main {
+    padding-block: 4rem;
+    max-width: 40rem;
+  }
+
+  .terminal {
+    color: var(--suave);
+  }
+
+  h1 {
+    margin-top: 1.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .botao {
+    margin-top: 1.5rem;
+  }
+</style>

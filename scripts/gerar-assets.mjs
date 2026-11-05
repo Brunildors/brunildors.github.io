@@ -1,11 +1,12 @@
 // Gera public/cv/Lucas-Silva-de-Lira-CV.pdf (a partir de /cv) e public/og-image.png (a partir de /og).
 // Usa um navegador Chromium já instalado (Brave, Chrome ou Edge) via playwright-core.
 // Uso: npm run assets   (ou defina CHROMIUM_PATH para forçar um executável)
-import { spawn, execSync } from 'node:child_process';
-import { existsSync, mkdirSync } from 'node:fs';
+import { execSync } from 'node:child_process';
+import { createServer } from 'node:http';
+import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
+import { extname, join, normalize } from 'node:path';
 import { chromium } from 'playwright-core';
 
-const PORTA = 4399;
 const candidatos = [
   process.env.CHROMIUM_PATH,
   'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe',
@@ -23,28 +24,37 @@ if (!executablePath) {
 console.log('> build…');
 execSync('npm run build', { stdio: 'inherit' });
 
-console.log('> preview…');
-const servidor = spawn('npx', ['astro', 'preview', '--port', String(PORTA)], {
-  shell: true,
-  stdio: 'ignore',
+// Servidor estático mínimo para dist/, só para este script.
+const tipos = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css',
+  '.js': 'text/javascript',
+  '.woff2': 'font/woff2',
+  '.webp': 'image/webp',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.jpg': 'image/jpeg',
+};
+const raiz = join(process.cwd(), 'dist');
+const servidor = createServer((req, res) => {
+  const caminho = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname));
+  let arquivo = join(raiz, caminho);
+  if (!arquivo.startsWith(raiz)) return res.writeHead(403).end();
+  if (existsSync(arquivo) && statSync(arquivo).isDirectory()) arquivo = join(arquivo, 'index.html');
+  if (!existsSync(arquivo)) return res.writeHead(404).end('não encontrado');
+  res.writeHead(200, { 'Content-Type': tipos[extname(arquivo)] ?? 'application/octet-stream' });
+  res.end(readFileSync(arquivo));
 });
-const base = `http://localhost:${PORTA}`;
-
-for (let i = 0; i < 40; i++) {
-  try {
-    if ((await fetch(base)).ok) break;
-  } catch {
-    await new Promise((r) => setTimeout(r, 500));
-  }
-}
+await new Promise((ok) => servidor.listen(0, '127.0.0.1', ok));
+const base = `http://127.0.0.1:${servidor.address().port}`;
 
 const browser = await chromium.launch({ executablePath });
 try {
   mkdirSync('public/cv', { recursive: true });
 
-  const pagina = await browser.newPage();
-  await pagina.goto(`${base}/cv`, { waitUntil: 'networkidle' });
-  await pagina.pdf({ path: 'public/cv/Lucas-Silva-de-Lira-CV.pdf', format: 'A4', printBackground: true });
+  const cv = await browser.newPage();
+  await cv.goto(`${base}/cv`, { waitUntil: 'networkidle' });
+  await cv.pdf({ path: 'public/cv/Lucas-Silva-de-Lira-CV.pdf', format: 'A4', printBackground: true });
   console.log('✔ public/cv/Lucas-Silva-de-Lira-CV.pdf');
 
   const og = await browser.newPage({ viewport: { width: 1200, height: 630 } });
@@ -53,6 +63,5 @@ try {
   console.log('✔ public/og-image.png');
 } finally {
   await browser.close();
-  if (process.platform === 'win32') execSync(`taskkill /pid ${servidor.pid} /T /F`, { stdio: 'ignore' });
-  else servidor.kill();
+  servidor.close();
 }

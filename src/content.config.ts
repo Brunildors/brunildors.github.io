@@ -10,14 +10,16 @@ const projetos = defineCollection({
       resumo: z.string(),
       stack: z.array(z.string()),
       ordem: z.number(),
-      destaque: z.boolean().default(false),
       /** Projeto com `rascunho: true` não é publicado. */
       rascunho: z.boolean().default(false),
       papel: z.string(),
       contexto: z.string().optional(),
-      /** Imagem de capa (caminho relativo ao .md, ex.: ../../assets/projetos/jogo/capa.png). Sem ela, o card mostra um degradê. */
+      /** Imagem de capa, relativa ao .md. Sem ela, o projeto aparece só com texto. */
       capa: image().optional(),
-      links: z.array(z.object({ rotulo: z.string(), url: z.string() })).default([]),
+      /** Repositório no GitHub. Sem ele, o botão não aparece. */
+      repositorio: z.url().optional(),
+      /** Versão publicada (jogo, site) para o botão "Jogar". */
+      demo: z.url().optional(),
       aviso: z.string().optional(),
     }),
 });

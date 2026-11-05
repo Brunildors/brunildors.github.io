@@ -2,11 +2,19 @@
 import { perfil } from '../data/perfil';
 ---
 
-<footer class="mt-24 border-t border-border">
-  <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-6 font-mono text-xs text-muted">
+<footer>
+  <div class="container">
     <p>
-      © {new Date().getFullYear()} {perfil.nome}
+      © {new Date().getFullYear()} {perfil.nome} · {perfil.local}
     </p>
-    <p>feito com Astro · {perfil.local}</p>
   </div>
 </footer>
+
+<style>
+  footer {
+    border-top: 2px solid var(--linha);
+    padding-block: 1.75rem;
+    color: var(--suave);
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import PillLink from './PillLink.astro';
+
+interface Props {
+  slug: string;
+  titulo: string;
+  resumo: string;
+  stack: string[];
+  capa?: ImageMetadata;
+  repositorio?: string;
+  demo?: string;
+}
+const { slug, titulo, resumo, stack, capa, repositorio, demo } = Astro.props;
+---
+
+<article class:list={['projeto', { comCapa: capa }]}>
+  <div class="texto">
+    <h3>
+      <a href={`/projetos/${slug}`}>{titulo}</a>
+    </h3>
+    <p>{resumo}</p>
+    <p class="stack mono">{stack.join(' · ')}</p>
+    <div class="botoes">
+      {demo && (
+        <PillLink href={demo} icone="tabler:player-play">
+          Jogar
+        </PillLink>
+      )}
+      {repositorio && (
+        <PillLink href={repositorio} icone="tabler:brand-github">
+          Código no GitHub
+        </PillLink>
+      )}
+      <PillLink href={`/projetos/${slug}`} icone="tabler:arrow-right">
+        Detalhes
+      </PillLink>
+    </div>
+  </div>
+  {capa && <Image src={capa} alt={`Tela do projeto ${titulo}`} width={520} height={293} class="capa" />}
+</article>
+
+<style>
+  .projeto {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .texto {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    max-width: 38rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  h3 a {
+    color: var(--texto);
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    text-decoration: underline;
+  }
+
+  .stack {
+    color: var(--suave);
+  }
+
+  .botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+
+  .projeto :global(.capa) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--linha);
+    border-radius: 0.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .comCapa {
+      grid-template-columns: 1fr 16rem;
+      gap: 2rem;
+    }
+  }
+</style>

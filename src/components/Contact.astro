@@ -1,28 +1,37 @@
 ---
 import { perfil } from '../data/perfil';
-import SocialLinks from './SocialLinks.astro';
+import { contatos } from '../data/redes';
+import PillLink from './PillLink.astro';
 ---
 
-<div class="rounded-2xl border border-border bg-linear-to-br from-surface to-bg p-8 sm:p-10">
-  <p class="text-2xl font-semibold sm:text-3xl">Vamos conversar sobre um projeto, uma vaga ou uma ideia?</p>
-  <p class="mt-4 text-muted">
-    E-mail:
-    {perfil.email ? (
-      <a href={`mailto:${perfil.email}`} class="text-accent underline-offset-4 hover:underline">
-        {perfil.email}
-      </a>
-    ) : (
-      <span class="text-accent-2">[TODO: e-mail público]</span>
-    )}
-  </p>
-  <div class="mt-6 flex flex-wrap items-center gap-3">
-    <SocialLinks comRotulo />
-    <a
-      href={perfil.cv}
-      download
-      class="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-bg transition hover:brightness-110"
-    >
-      Baixar CV
-    </a>
-  </div>
-</div>
+<p class="chamada">
+  Se quiser falar sobre um projeto, uma vaga ou só trocar uma ideia, escolha o canal que preferir.
+</p>
+
+<ul class="botoes">
+  {contatos.map((c) => (
+    <li>
+      <PillLink href={c.url} icone={c.icone} detalhe={c.exibicao}>
+        {c.nome}
+      </PillLink>
+    </li>
+  ))}
+  <li>
+    <PillLink href={perfil.cv} icone="tabler:download" baixar>
+      Baixar currículo
+    </PillLink>
+  </li>
+</ul>
+
+<style>
+  .chamada {
+    max-width: 34rem;
+  }
+
+  .botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+</style>

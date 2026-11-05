@@ -1,0 +1,66 @@
+---
+import { formacao, cursos } from '../data/perfil';
+---
+
+<ul class="formacao">
+  {formacao.map((f) => (
+    <li>
+      <p class="curso">{f.curso}</p>
+      <p>{f.instituicao}</p>
+      <p class="periodo mono">
+        {f.periodo} · {f.status}
+      </p>
+    </li>
+  ))}
+</ul>
+
+<h3>Cursos</h3>
+<ul class="cursos">
+  {cursos.map((c) => (
+    <li>
+      <span>{c.nome}</span>
+      <span class="plataforma mono">{c.plataforma}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .formacao {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .curso {
+    font-weight: 600;
+  }
+
+  .periodo,
+  .plataforma {
+    color: var(--suave);
+  }
+
+  h3 {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--linha);
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .cursos {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .cursos li {
+    display: grid;
+    gap: 0.1rem 1rem;
+  }
+
+  @media (min-width: 40rem) {
+    .cursos li {
+      grid-template-columns: 16rem 1fr;
+    }
+  }
+</style>

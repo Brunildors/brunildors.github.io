@@ -3,12 +3,13 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
-import SectionTitle from '../components/SectionTitle.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import Timeline from '../components/Timeline.astro';
+import Section from '../components/Section.astro';
+import About from '../components/About.astro';
+import Experience from '../components/Experience.astro';
+import ProjectItem from '../components/ProjectItem.astro';
+import Education from '../components/Education.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
-import { perfil, formacao, cursos, stack } from '../data/perfil';
 
 const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort(
   (a, b) => a.data.ordem - b.data.ordem,
@@ -19,81 +20,45 @@ const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort
   <Header />
   <main id="conteudo">
     <Hero />
-
-    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="sobre">
-      <SectionTitle id="sobre" num="01" titulo="Sobre" />
-      <div class="max-w-prose space-y-4 text-lg text-text/90">
-        {perfil.bio.map((p) => (
-          <p>{p}</p>
-        ))}
-      </div>
-      <div class="mt-10 grid gap-4 sm:grid-cols-3">
-        {stack.map((g) => (
-          <div class="rounded-2xl border border-border bg-surface p-5">
-            <h3 class="text-sm font-semibold text-accent-2">{g.grupo}</h3>
-            <ul class="mt-3 flex flex-wrap gap-2 font-mono text-xs">
-              {g.itens.map((i) => (
-                <li class="rounded bg-bg px-2 py-1 text-muted">{i}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="projetos">
-      <SectionTitle id="projetos" num="02" titulo="Projetos" />
-      <ul class="grid gap-6 sm:grid-cols-2">
+    <Section id="sobre" titulo="Sobre">
+      <About />
+    </Section>
+    <Section id="experiencia" titulo="Experiência">
+      <Experience />
+    </Section>
+    <Section id="projetos" titulo="Projetos">
+      <div class="projetos">
         {projetos.map((p) => (
-          <li>
-            <ProjectCard
-              slug={p.id}
-              titulo={p.data.titulo}
-              resumo={p.data.resumo}
-              stack={p.data.stack}
-              ordem={p.data.ordem}
-              destaque={p.data.destaque}
-              capa={p.data.capa}
-            />
-          </li>
+          <ProjectItem
+            slug={p.id}
+            titulo={p.data.titulo}
+            resumo={p.data.resumo}
+            stack={p.data.stack}
+            capa={p.data.capa}
+            repositorio={p.data.repositorio}
+            demo={p.data.demo}
+          />
         ))}
-      </ul>
-    </section>
-
-    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="experiencia">
-      <SectionTitle id="experiencia" num="03" titulo="Experiência" />
-      <Timeline />
-    </section>
-
-    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="formacao">
-      <SectionTitle id="formacao" num="04" titulo="Formação e cursos" />
-      <ul class="grid gap-4 sm:grid-cols-3">
-        {formacao.map((f) => (
-          <li class="rounded-2xl border border-border bg-surface p-5">
-            <p class="font-semibold">{f.curso}</p>
-            <p class="mt-1 text-sm text-muted">{f.instituicao}</p>
-            <p class="mt-3 text-xs text-accent">
-              {f.periodo} · {f.status}
-            </p>
-          </li>
-        ))}
-      </ul>
-
-      <h3 class="mt-12 mb-4 text-lg font-semibold">Cursos</h3>
-      <ul class="grid gap-3 sm:grid-cols-3">
-        {cursos.map((c) => (
-          <li class="rounded-xl border border-border bg-surface px-4 py-3 text-sm">
-            <p>{c.nome}</p>
-            <p class="text-xs text-muted">{c.plataforma}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
-
-    <section class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="contato">
-      <SectionTitle id="contato" num="05" titulo="Contato" />
+      </div>
+    </Section>
+    <Section id="formacao" titulo="Formação e cursos">
+      <Education />
+    </Section>
+    <Section id="contato" titulo="Contato">
       <Contact />
-    </section>
+    </Section>
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .projetos {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .projetos > :global(article + article) {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--linha);
+  }
+</style>

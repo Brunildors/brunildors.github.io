@@ -1,8 +1,8 @@
 ---
 import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
 import { perfil } from '../data/perfil';
-import { redesAtivas } from '../data/redes';
+import { redes } from '../data/redes';
 
 interface Props {
   title?: string;
@@ -33,7 +33,7 @@ const pessoa = {
     addressCountry: 'BR',
   },
   url: Astro.site?.href,
-  sameAs: redesAtivas.map((r) => r.url),
+  sameAs: redes.map((r) => r.url),
 };
 ---
 
@@ -45,11 +45,13 @@ const pessoa = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#0B0F14" />
+    <meta name="theme-color" content="#f6f7f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111417" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {noindex && <meta name="robots" content="noindex" />}
-    <ClientRouter />
+    <Font cssVariable="--fonte-texto" preload />
+    <Font cssVariable="--fonte-mono" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
@@ -62,10 +64,7 @@ const pessoa = {
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(pessoa)} />}
   </head>
   <body>
-    <a
-      href="#conteudo"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:text-bg"
-    >
+    <a href="#conteudo" class="pular">
       Pular para o conteúdo
     </a>
     <slot />

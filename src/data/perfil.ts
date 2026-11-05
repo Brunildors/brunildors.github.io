@@ -1,37 +1,33 @@
 export const perfil = {
   nome: 'Lucas Silva de Lira',
   cargo: 'Desenvolvedor de Sistemas com IA',
-  subtitulo: 'Automação · Sistemas multiagentes · LLMs',
   local: 'Praia Grande, SP',
   valor: 'Construo sistemas com LLMs e agentes de IA que automatizam processos reais de empresas.',
   descricao:
-    'Lucas Silva de Lira — desenvolvedor de sistemas com IA em Praia Grande/SP. Automação, sistemas multiagentes e LLMs aplicados a processos reais.',
+    'Lucas Silva de Lira, desenvolvedor de sistemas com IA em Praia Grande, SP. Automação, sistemas multiagentes e LLMs.',
   bio: [
-    'Sou estudante de Inteligência Artificial e desenvolvo, na Ellicon Assessoria Contábil, sistemas que usam LLMs para automatizar processos do dia a dia da empresa.',
-    'Por atuar também na área financeira, entendo o processo que estou automatizando — e isso muda a qualidade do que eu entrego.',
+    'Sou estudante de Inteligência Artificial e desenvolvo sistemas com LLMs. Gosto de pegar uma tarefa repetitiva, entender cada etapa e transformá-la em um fluxo automático, às vezes com vários agentes de IA trabalhando juntos, cada um com uma função.',
+    'Programo em Python e JavaScript, monto integrações e fluxos no n8n e desenvolvo com o apoio de agentes de código, como o Claude Code e o Codex. Também me interesso por engenharia de prompts e por desenvolvimento web.',
+    'Nos projetos pessoais, aprendo construindo. O Desafio de Kalos, por exemplo, é um jogo de batalhas por turnos em JavaScript puro, com testes automatizados e dados da PokéAPI.',
   ],
-  /** E-mail público dedicado ao portfólio. Enquanto vazio, o site mostra um marcador [TODO]. */
-  email: undefined as string | undefined,
-  /** Foto opcional (colocar em src/assets e importar). */
-  foto: undefined as string | undefined,
   cv: '/cv/Lucas-Silva-de-Lira-CV.pdf',
 };
 
 export const experiencias = [
   {
+    cargo: 'Analista e desenvolvedor de sistemas com LLMs',
     empresa: 'Ellicon Assessoria Contábil',
-    cargo: 'Analista e desenvolvedor de sistemas com LLMs (IA)',
-    periodo: '[TODO: mês/ano] — atual',
+    periodo: 'Setembro/2025 – atual',
     resumo:
       'Desenvolvimento de sistemas e automações com LLMs, incluindo um sistema multiagente para automatizar a produção.',
-    tags: ['Claude Code', 'Codex', 'n8n', 'LLMs'],
+    tecnologias: ['Claude Code', 'Codex', 'n8n', 'LLMs'],
   },
   {
-    empresa: 'Ellicon Assessoria Contábil',
     cargo: 'Financeiro',
-    periodo: '[TODO: mês/ano] — atual',
-    resumo: 'Rotinas financeiras da empresa, o que dá visão de negócio ao que eu automatizo.',
-    tags: ['Financeiro', 'Processos'],
+    empresa: 'Ellicon Assessoria Contábil',
+    periodo: 'Setembro/2025 – atual',
+    resumo: 'Rotinas financeiras da empresa.',
+    tecnologias: [],
   },
 ];
 
@@ -39,7 +35,7 @@ export const formacao = [
   {
     curso: 'Tecnólogo em Inteligência Artificial',
     instituicao: '[TODO: instituição]',
-    periodo: '2026 — previsão dez/2027',
+    periodo: '2026 – previsão dezembro/2027',
     status: 'Cursando',
   },
   {
@@ -57,14 +53,18 @@ export const formacao = [
 ];
 
 export const cursos = [
-  { nome: 'Python — Nano Course', plataforma: '[TODO: plataforma]' },
-  { nome: 'Python — Santander Academy', plataforma: 'Santander Academy' },
-  { nome: 'Ética em Inteligência Artificial', plataforma: '[TODO: plataforma]' },
+  { nome: 'Python', plataforma: 'FIAP – Nano Course' },
+  { nome: 'Python', plataforma: 'Santander Academy' },
+  { nome: 'Ética em Inteligência Artificial', plataforma: 'Bradesco Academy' },
 ];
 
-/** Stack provisória — confirmar com o Lucas o que ele realmente domina. */
-export const stack = [
-  { grupo: 'Linguagens', itens: ['Python', 'JavaScript', 'TypeScript'] },
-  { grupo: 'IA e automação', itens: ['LLMs', 'Claude Code', 'Codex', 'n8n', 'Sistemas multiagentes'] },
-  { grupo: 'Web e design', itens: ['HTML', 'CSS', 'Figma', 'APIs REST'] },
+/** Baseado nas ferramentas do README do GitHub e no que o projeto usa de fato. */
+export const competencias = [
+  { grupo: 'Linguagens', itens: ['Python', 'JavaScript', 'HTML', 'CSS', 'C#', 'C++'] },
+  { grupo: 'Dados', itens: ['MySQL'] },
+  {
+    grupo: 'IA e automação',
+    itens: ['LLMs', 'Sistemas multiagentes', 'Engenharia de prompts', 'n8n', 'Claude Code', 'Codex'],
+  },
+  { grupo: 'Design', itens: ['Figma'] },
 ];

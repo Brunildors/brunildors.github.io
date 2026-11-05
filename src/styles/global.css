@@ -1,59 +1,120 @@
-@import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/jetbrains-mono';
+/* Tokens. Claro por padrão; escuro automático pelo sistema do visitante. */
+:root {
+  color-scheme: light dark;
 
-/* Tokens de design. Para trocar a paleta, altere só accent / accent-2. */
-@theme {
-  --color-bg: #0b0f14;
-  --color-surface: #121821;
-  --color-border: #1f2a37;
-  --color-text: #e6edf3;
-  --color-muted: #9aa4b2;
-  --color-accent: #22d3ee;
-  --color-accent-2: #a78bfa;
+  --fundo: #f6f7f7;
+  --texto: #14191f;
+  --suave: #55606b;
+  --linha: #7b858f;
+  --destaque: #0b5c8e;
+  --sobre-destaque: #ffffff;
 
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Code', monospace;
+  --largura: 62rem;
+  --gutter: 1.25rem;
+}
 
-  --animate-fade-up: fade-up 0.7s ease-out both;
-
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fundo: #111417;
+    --texto: #e7eaec;
+    --suave: #a2abb3;
+    --linha: #5c666f;
+    --destaque: #6cb6e8;
+    --sobre-destaque: #0b1620;
   }
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte-texto), system-ui, sans-serif;
+  font-size: 100%;
+  line-height: 1.65;
+  scroll-padding-top: 4.5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100vh;
-  line-height: 1.6;
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
 }
 
-::selection {
-  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--destaque);
+  text-underline-offset: 0.2em;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--largura));
+  margin-inline: auto;
+}
+
+/* Dados que são de fato "de máquina": datas, e-mails, repositórios, tecnologias. */
+.mono {
+  font-family: var(--fonte-mono), ui-monospace, monospace;
+  font-size: 0.9em;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--destaque);
   outline-offset: 3px;
-  border-radius: 4px;
+}
+
+.pular {
+  position: absolute;
+  left: var(--gutter);
+  top: -4rem;
+  padding: 0.6rem 1rem;
+  background: var(--destaque);
+  color: var(--sobre-destaque);
+  border-radius: 0.4rem;
+  z-index: 10;
+}
+
+.pular:focus {
+  top: 0.75rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }

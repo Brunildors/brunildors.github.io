@@ -1,23 +1,57 @@
 ---
 import '../styles/global.css';
+import { Font } from 'astro:assets';
 import { perfil } from '../data/perfil';
 ---
 
-<!-- Página interna: o script scripts/gerar-assets.mjs tira um print dela (1200x630) para virar public/og-image.png -->
+<!-- Página interna: scripts/gerar-assets.mjs tira um print dela (1200x630) e salva em public/og-image.png -->
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex" />
     <title>og</title>
+    <Font cssVariable="--fonte-texto" />
+    <Font cssVariable="--fonte-mono" />
   </head>
-  <body style="margin:0">
-    <div style="width:1200px;height:630px;display:flex;flex-direction:column;justify-content:center;padding:0 90px;box-sizing:border-box;background:#0B0F14">
-      <p style="font-family:var(--font-mono);color:#22D3EE;font-size:30px;margin:0">&lt;LucasLira/&gt;</p>
-      <h1 style="font-size:78px;line-height:1.05;margin:24px 0 0;font-weight:800">{perfil.nome}</h1>
-      <p style="font-size:38px;color:#A78BFA;margin:20px 0 0">{perfil.cargo}</p>
-      <p style="font-family:var(--font-mono);font-size:26px;color:#9AA4B2;margin:16px 0 0">
-        {perfil.subtitulo}
-      </p>
+  <body>
+    <div class="cartao">
+      <p class="mono local">{perfil.local}</p>
+      <h1>{perfil.nome}</h1>
+      <p class="cargo">{perfil.cargo}</p>
     </div>
   </body>
 </html>
+
+<style>
+  body {
+    margin: 0;
+  }
+
+  .cartao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 1200px;
+    height: 630px;
+    padding: 0 90px;
+    border-left: 16px solid var(--destaque);
+  }
+
+  .local {
+    color: var(--suave);
+    font-size: 28px;
+  }
+
+  h1 {
+    margin-top: 16px;
+    font-size: 84px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .cargo {
+    margin-top: 16px;
+    color: var(--destaque);
+    font-size: 40px;
+  }
+</style>

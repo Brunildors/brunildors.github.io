@@ -1,0 +1,74 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  href: string;
+  icone?: string;
+  /** Texto menor em fonte mono ao lado do rótulo (usuário, número, e-mail). */
+  detalhe?: string;
+  /** Botão preenchido: use no máximo um por trecho de tela. */
+  primario?: boolean;
+  /** Atributo `download` para arquivos. */
+  baixar?: boolean;
+}
+
+const { href, icone, detalhe, primario = false, baixar = false } = Astro.props;
+const externo = /^https?:\/\//.test(href);
+---
+
+<a
+  href={href}
+  class:list={['pilula', { primario }]}
+  download={baixar || undefined}
+  target={externo ? '_blank' : undefined}
+  rel={externo ? 'noopener noreferrer' : undefined}
+>
+  {icone && <Icon name={icone} size={18} aria-hidden="true" />}
+  <span>
+    <slot />
+  </span>
+  {detalhe && <span class="detalhe mono">{detalhe}</span>}
+</a>
+
+<style>
+  .pilula {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.15rem;
+    border: 1.5px solid var(--linha);
+    border-radius: 999px;
+    color: var(--texto);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      border-color 0.15s,
+      color 0.15s,
+      background-color 0.15s;
+  }
+
+  .pilula:hover {
+    border-color: var(--destaque);
+    color: var(--destaque);
+  }
+
+  .primario {
+    background: var(--destaque);
+    border-color: var(--destaque);
+    color: var(--sobre-destaque);
+  }
+
+  .primario:hover {
+    color: var(--sobre-destaque);
+    filter: brightness(1.1);
+  }
+
+  .detalhe {
+    color: var(--suave);
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+</style>
