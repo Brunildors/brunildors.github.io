@@ -27,13 +27,17 @@ npm run assets     # gera o PDF do CV e a imagem Open Graph (precisa de Brave, C
 
 Tudo que ainda falta aparece no site como `[TODO: …]`, e o CI bloqueia PRs para a `main` enquanto houver algum em `src/`.
 
-A URL do site (`site` em `astro.config.ts`) vem da variável `URL`, que o Netlify já define no build. Localmente, vale `http://localhost:4321`.
+A URL do site (`site` em `astro.config.ts`) vem da variável `URL`: o workflow de deploy a define e, no Netlify, ela já vem pronta. Localmente, vale `http://localhost:4321`.
 O PDF do CV e a imagem de compartilhamento ficam versionados: rode `npm run assets` sempre que o conteúdo mudar.
 
-## Deploy (Netlify)
+## Deploy
 
-O plano gratuito usa créditos: cada deploy de produção custa 15 de 300 por mês, e deploy previews são grátis.
-Fluxo: trabalhar na `dev`, abrir PR para a `main`, conferir o preview e juntar várias mudanças por merge.
+**GitHub Pages (atual):** todo push na `main` publica o site em https://brunildors.github.io/ pelo workflow `.github/workflows/deploy.yml`.
+Fluxo: trabalhar na `dev` (o CI roda a cada push), abrir PR para a `main` e fazer o merge.
+
+Os atalhos `/github`, `/linkedin` e `/whatsapp` geram o arquivo `dist/_redirects`, que o GitHub Pages não lê. Eles só funcionam em Netlify ou Cloudflare Pages.
+
+**Netlify (alternativa):** o `netlify.toml` já está pronto. O plano gratuito usa créditos: cada deploy de produção custa 15 de 300 por mês, e deploy previews são grátis.
 
 ## Licença
 
