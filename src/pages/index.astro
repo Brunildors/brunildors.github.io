@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { projetosPublicados } from '../data/projetos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
@@ -11,9 +11,7 @@ import Education from '../components/Education.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 
-const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort(
-  (a, b) => a.data.ordem - b.data.ordem,
-);
+const projetos = await projetosPublicados();
 ---
 
 <BaseLayout jsonLd>

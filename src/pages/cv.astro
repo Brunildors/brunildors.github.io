@@ -1,12 +1,10 @@
 ---
 import { Font } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import { perfil, experiencias, formacao, cursos, competencias } from '../data/perfil';
 import { contatos } from '../data/redes';
+import { projetosPublicados } from '../data/projetos';
 
-const projetos = (await getCollection('projetos', (p) => !p.data.rascunho)).sort(
-  (a, b) => a.data.ordem - b.data.ordem,
-);
+const projetos = await projetosPublicados();
 ---
 
 <!doctype html>

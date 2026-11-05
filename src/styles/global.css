@@ -82,9 +82,29 @@ img {
 }
 
 /* Dados que são de fato "de máquina": datas, e-mails, repositórios, tecnologias. */
-.mono {
+.mono,
+code {
   font-family: var(--fonte-mono), ui-monospace, monospace;
   font-size: 0.9em;
+}
+
+.suave {
+  color: var(--suave);
+}
+
+/* Contorno fino das imagens (foto, capas de projeto). */
+.moldura {
+  border: 1px solid var(--linha);
+  border-radius: 0.5rem;
+}
+
+dt {
+  color: var(--suave);
+  font-size: 0.9rem;
+}
+
+dd {
+  margin: 0;
 }
 
 :focus-visible {

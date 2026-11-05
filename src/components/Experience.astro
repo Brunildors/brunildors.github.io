@@ -5,11 +5,11 @@ import { experiencias } from '../data/perfil';
 <ol class="lista">
   {experiencias.map((e) => (
     <li>
-      <p class="periodo mono">{e.periodo}</p>
+      <p class="mono suave">{e.periodo}</p>
       <h3>{e.cargo}</h3>
       <p class="empresa">{e.empresa}</p>
       <p class="resumo">{e.resumo}</p>
-      {e.tecnologias.length > 0 && <p class="tec mono">{e.tecnologias.join(' · ')}</p>}
+      {e.tecnologias && <p class="tec mono suave">{e.tecnologias.join(' · ')}</p>}
     </li>
   ))}
 </ol>
@@ -23,10 +23,6 @@ import { experiencias } from '../data/perfil';
   li + li {
     padding-top: 2rem;
     border-top: 1px solid var(--linha);
-  }
-
-  .periodo {
-    color: var(--suave);
   }
 
   h3 {
@@ -46,6 +42,5 @@ import { experiencias } from '../data/perfil';
 
   .tec {
     margin-top: 0.5rem;
-    color: var(--suave);
   }
 </style>

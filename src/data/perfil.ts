@@ -1,6 +1,8 @@
 export const perfil = {
   nome: 'Lucas Silva de Lira',
   cargo: 'Desenvolvedor de Sistemas com IA',
+  cidade: 'Praia Grande',
+  uf: 'SP',
   local: 'Praia Grande, SP',
   valor: 'Construo sistemas com LLMs e agentes de IA que automatizam processos reais de empresas.',
   descricao:
@@ -27,7 +29,6 @@ export const experiencias = [
     empresa: 'Ellicon Assessoria Contábil',
     periodo: 'Setembro/2025 – atual',
     resumo: 'Rotinas financeiras da empresa.',
-    tecnologias: [],
   },
 ];
 

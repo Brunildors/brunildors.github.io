@@ -22,8 +22,8 @@ const atalhosDasRedes = (): AstroIntegration => ({
 });
 
 export default defineConfig({
-  // Provisório: trocar pela URL final antes do lançamento (canonical, sitemap e Open Graph dependem dela).
-  site: 'https://lucaslira.netlify.app',
+  // Canonical, sitemap e Open Graph dependem desta URL. No Netlify, `URL` já vem com o endereço do site.
+  site: process.env.URL ?? 'http://localhost:4321',
   output: 'static',
   integrations: [sitemap({ filter: (page) => !/\/(og|cv)\/?$/.test(page) }), icon(), atalhosDasRedes()],
   i18n: { defaultLocale: 'pt-br', locales: ['pt-br'] },
@@ -32,7 +32,7 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       name: 'IBM Plex Sans',
       cssVariable: '--fonte-texto',
-      weights: [400, 500, 600],
+      weights: [400, 600],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['system-ui', 'sans-serif'],
@@ -41,7 +41,7 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       name: 'IBM Plex Mono',
       cssVariable: '--fonte-mono',
-      weights: [400, 500],
+      weights: [400],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['ui-monospace', 'monospace'],

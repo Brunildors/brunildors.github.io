@@ -11,7 +11,7 @@ import { perfil, competencias } from '../data/perfil';
     width={220}
     height={220}
     densities={[1, 2]}
-    class="foto"
+    class="foto moldura"
   />
   <div class="texto">
     {perfil.bio.map((p) => (
@@ -39,8 +39,6 @@ import { perfil, competencias } from '../data/perfil';
     width: 11rem;
     height: 11rem;
     object-fit: cover;
-    border-radius: 0.5rem;
-    border: 1px solid var(--linha);
   }
 
   .texto {
@@ -60,15 +58,6 @@ import { perfil, competencias } from '../data/perfil';
   .competencias div {
     display: grid;
     gap: 0.1rem;
-  }
-
-  dt {
-    color: var(--suave);
-    font-size: 0.9rem;
-  }
-
-  dd {
-    margin: 0;
   }
 
   @media (min-width: 40rem) {

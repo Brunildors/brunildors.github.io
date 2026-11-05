@@ -1,27 +1,19 @@
 ---
 import { perfil } from '../data/perfil';
-import { contatos } from '../data/redes';
 import PillLink from './PillLink.astro';
+import SocialLinks from './SocialLinks.astro';
 ---
 
 <p class="chamada">
   Se quiser falar sobre um projeto, uma vaga ou só trocar uma ideia, escolha o canal que preferir.
 </p>
 
-<ul class="botoes">
-  {contatos.map((c) => (
-    <li>
-      <PillLink href={c.url} icone={c.icone} detalhe={c.exibicao}>
-        {c.nome}
-      </PillLink>
-    </li>
-  ))}
-  <li>
-    <PillLink href={perfil.cv} icone="tabler:download" baixar>
-      Baixar currículo
-    </PillLink>
-  </li>
-</ul>
+<div class="botoes">
+  <SocialLinks detalhes />
+  <PillLink href={perfil.cv} icone="tabler:download" baixar>
+    Baixar currículo
+  </PillLink>
+</div>
 
 <style>
   .chamada {
@@ -31,7 +23,8 @@ import PillLink from './PillLink.astro';
   .botoes {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    align-items: flex-start;
+    gap: 0.6rem;
     margin-top: 1.5rem;
   }
 </style>

@@ -27,7 +27,7 @@ const externo = /^https?:\/\//.test(href);
   <span>
     <slot />
   </span>
-  {detalhe && <span class="detalhe mono">{detalhe}</span>}
+  {detalhe && <span class="detalhe mono suave">{detalhe}</span>}
 </a>
 
 <style>
@@ -41,7 +41,7 @@ const externo = /^https?:\/\//.test(href);
     border-radius: 999px;
     color: var(--texto);
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.2;
     text-decoration: none;
     transition:
@@ -67,7 +67,6 @@ const externo = /^https?:\/\//.test(href);
   }
 
   .detalhe {
-    color: var(--suave);
     font-size: 0.85rem;
     font-weight: 400;
   }

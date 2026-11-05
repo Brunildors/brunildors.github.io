@@ -25,8 +25,10 @@ npm run assets     # gera o PDF do CV e a imagem Open Graph (precisa de Brave, C
 
 ## Pendências antes do lançamento
 
-Tudo que ainda falta aparece no site como `[TODO: …]`, e o CI bloqueia PRs para a `main` enquanto houver algum.
-Confirmar também a URL final em `astro.config.ts` (`site`).
+Tudo que ainda falta aparece no site como `[TODO: …]`, e o CI bloqueia PRs para a `main` enquanto houver algum em `src/`.
+
+A URL do site (`site` em `astro.config.ts`) vem da variável `URL`, que o Netlify já define no build. Localmente, vale `http://localhost:4321`.
+O PDF do CV e a imagem de compartilhamento ficam versionados: rode `npm run assets` sempre que o conteúdo mudar.
 
 ## Deploy (Netlify)
 

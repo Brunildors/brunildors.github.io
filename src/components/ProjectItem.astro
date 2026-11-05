@@ -20,7 +20,7 @@ const { slug, titulo, resumo, stack, capa, repositorio, demo } = Astro.props;
       <a href={`/projetos/${slug}`}>{titulo}</a>
     </h3>
     <p>{resumo}</p>
-    <p class="stack mono">{stack.join(' · ')}</p>
+    <p class="mono suave">{stack.join(' · ')}</p>
     <div class="botoes">
       {demo && (
         <PillLink href={demo} icone="tabler:player-play">
@@ -37,7 +37,9 @@ const { slug, titulo, resumo, stack, capa, repositorio, demo } = Astro.props;
       </PillLink>
     </div>
   </div>
-  {capa && <Image src={capa} alt={`Tela do projeto ${titulo}`} width={520} height={293} class="capa" />}
+  {capa && (
+    <Image src={capa} alt={`Tela do projeto ${titulo}`} width={520} height={293} class="capa moldura" />
+  )}
 </article>
 
 <style>
@@ -67,10 +69,6 @@ const { slug, titulo, resumo, stack, capa, repositorio, demo } = Astro.props;
     text-decoration: underline;
   }
 
-  .stack {
-    color: var(--suave);
-  }
-
   .botoes {
     display: flex;
     flex-wrap: wrap;
@@ -81,8 +79,6 @@ const { slug, titulo, resumo, stack, capa, repositorio, demo } = Astro.props;
   .projeto :global(.capa) {
     width: 100%;
     height: auto;
-    border: 1px solid var(--linha);
-    border-radius: 0.5rem;
   }
 
   @media (min-width: 40rem) {

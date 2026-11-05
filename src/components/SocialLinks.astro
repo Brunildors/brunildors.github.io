@@ -1,12 +1,18 @@
 ---
 import PillLink from './PillLink.astro';
 import { contatos } from '../data/redes';
+
+interface Props {
+  /** Mostra o usuário, número ou e-mail ao lado do nome de cada botão. */
+  detalhes?: boolean;
+}
+const { detalhes = false } = Astro.props;
 ---
 
 <ul class="lista">
   {contatos.map((c) => (
     <li>
-      <PillLink href={c.url} icone={c.icone}>
+      <PillLink href={c.url} icone={c.icone} detalhe={detalhes ? c.exibicao : undefined}>
         {c.nome}
       </PillLink>
     </li>

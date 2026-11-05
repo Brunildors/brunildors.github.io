@@ -1,23 +1,28 @@
 /**
- * Fonte única dos contatos e redes. Usada nos botões do hero e do contato,
- * no JSON-LD do SEO e nos atalhos curtos (/linkedin, /github, /whatsapp),
+ * Fonte única dos contatos. Usada nos botões do hero e da seção Contato,
+ * no JSON-LD do SEO e nos atalhos curtos (/github, /linkedin, /whatsapp),
  * que viram redirecionamentos 301 em astro.config.ts.
  */
-export interface Rede {
-  id: 'email' | 'whatsapp' | 'linkedin' | 'github';
+export interface Contato {
   nome: string;
   /** Texto exibido ao lado do nome no botão da seção Contato. */
   exibicao: string;
   /** Ícone do conjunto Tabler (astro-icon). */
   icone: string;
   url: string;
-  /** Atalho curto do próprio site. Só as redes externas têm. */
-  atalho: string;
+  /** Atalho curto do próprio site. Só as redes externas têm (o e-mail não). */
+  atalho?: string;
 }
 
-export const redes: Rede[] = [
+/** Ordem dos botões no hero e na seção Contato. */
+export const contatos: Contato[] = [
   {
-    id: 'github',
+    nome: 'E-mail',
+    exibicao: 'luccassliraa@gmail.com',
+    icone: 'tabler:mail',
+    url: 'mailto:luccassliraa@gmail.com',
+  },
+  {
     nome: 'GitHub',
     exibicao: 'Brunildors',
     icone: 'tabler:brand-github',
@@ -25,7 +30,6 @@ export const redes: Rede[] = [
     atalho: '/github',
   },
   {
-    id: 'linkedin',
     nome: 'LinkedIn',
     exibicao: 'lucas-silva-de-lira',
     icone: 'tabler:brand-linkedin',
@@ -33,7 +37,6 @@ export const redes: Rede[] = [
     atalho: '/linkedin',
   },
   {
-    id: 'whatsapp',
     nome: 'WhatsApp',
     exibicao: '(13) 97419-3984',
     icone: 'tabler:brand-whatsapp',
@@ -42,13 +45,5 @@ export const redes: Rede[] = [
   },
 ];
 
-export const email = {
-  id: 'email',
-  nome: 'E-mail',
-  exibicao: 'luccassliraa@gmail.com',
-  icone: 'tabler:mail',
-  url: 'mailto:luccassliraa@gmail.com',
-} as const;
-
-/** Ordem do botão na seção Contato. */
-export const contatos = [email, ...redes];
+/** Só os contatos com atalho próprio: perfis públicos (sameAs do SEO) e redirecionamentos. */
+export const redes = contatos.filter((c): c is Contato & { atalho: string } => Boolean(c.atalho));

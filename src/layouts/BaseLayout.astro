@@ -28,8 +28,8 @@ const pessoa = {
   jobTitle: perfil.cargo,
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Praia Grande',
-    addressRegion: 'SP',
+    addressLocality: perfil.cidade,
+    addressRegion: perfil.uf,
     addressCountry: 'BR',
   },
   url: Astro.site?.href,

@@ -7,7 +7,7 @@ import { formacao, cursos } from '../data/perfil';
     <li>
       <p class="curso">{f.curso}</p>
       <p>{f.instituicao}</p>
-      <p class="periodo mono">
+      <p class="mono suave">
         {f.periodo} · {f.status}
       </p>
     </li>
@@ -19,7 +19,7 @@ import { formacao, cursos } from '../data/perfil';
   {cursos.map((c) => (
     <li>
       <span>{c.nome}</span>
-      <span class="plataforma mono">{c.plataforma}</span>
+      <span class="mono suave">{c.plataforma}</span>
     </li>
   ))}
 </ul>
@@ -32,11 +32,6 @@ import { formacao, cursos } from '../data/perfil';
 
   .curso {
     font-weight: 600;
-  }
-
-  .periodo,
-  .plataforma {
-    color: var(--suave);
   }
 
   h3 {
