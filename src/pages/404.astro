@@ -8,32 +8,36 @@ import { perfil } from '../data/perfil';
 <BaseLayout title={`Página não encontrada | ${perfil.nome}`} noindex>
   <Header />
   <main id="conteudo" class="container">
-    <p class="mono terminal">$ cd {Astro.url.pathname}</p>
-    <p class="mono terminal">bash: página: command not found</p>
-    <h1>404: página não encontrada</h1>
-    <p>O endereço que você abriu não existe ou foi movido.</p>
-    <div class="botao">
-      <PillLink href="/" icone="tabler:arrow-left" primario>
-        Voltar ao início
-      </PillLink>
+    <div class="painel">
+      <p class="mono suave">$ cd {Astro.url.pathname}</p>
+      <p class="mono suave">bash: página: command not found</p>
+      <h1>404: página não encontrada</h1>
+      <p>O endereço que você abriu não existe ou foi movido.</p>
+      <div class="botao">
+        <PillLink href="/" icone="tabler:arrow-left" primario>
+          Voltar ao início
+        </PillLink>
+      </div>
     </div>
   </main>
 </BaseLayout>
 
 <style>
   main {
-    padding-block: 4rem;
     max-width: 40rem;
+    padding-block: 4rem;
   }
 
-  .terminal {
-    color: var(--suave);
+  .painel {
+    padding: 2rem;
   }
 
   h1 {
-    margin-top: 1.5rem;
-    font-size: 2rem;
-    font-weight: 600;
+    margin-block: 1.5rem 0.75rem;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 
   .botao {

@@ -1,57 +1,181 @@
 ---
+import { Image } from 'astro:assets';
+import foto from '../assets/foto-perfil.jpg';
 import { perfil } from '../data/perfil';
 import PillLink from './PillLink.astro';
 import SocialLinks from './SocialLinks.astro';
 ---
 
-<section class="hero">
-  <div class="container">
-    <p class="local">{perfil.local}</p>
-    <h1>{perfil.nome}</h1>
-    <p class="cargo">{perfil.cargo}</p>
-    <p class="valor">{perfil.valor}</p>
-    <div class="acoes">
-      <PillLink href={perfil.cv} icone="tabler:download" primario baixar>
-        Baixar currículo
-      </PillLink>
-      <SocialLinks />
+<section id="topo" class="hero" data-secao aria-label="Apresentação">
+  <div class="container grade">
+    <div class="bloco-foto" data-revelar>
+      <div class="moldura-foto">
+        <Image
+          src={foto}
+          alt="Foto de rosto de Lucas Silva de Lira"
+          width={230}
+          height={230}
+          densities={[1, 2]}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+
+    <div class="identidade" data-revelar style="--ordem: 1">
+      <p class="local mono suave">{perfil.local}</p>
+      <h1>{perfil.nome}</h1>
+      <p class="cargo">{perfil.cargo}</p>
+    </div>
+
+    <div class="texto" data-revelar style="--ordem: 2">
+      <p class="resumo">{perfil.resumo}</p>
+      <div class="acoes">
+        <PillLink href={perfil.cv} icone="tabler:download" primario baixar>
+          Baixar currículo
+        </PillLink>
+        <SocialLinks />
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: 4.5rem 4rem;
+    padding-block: 3.5rem 5rem;
+    background-color: var(--grafite);
+    background-image: var(--ruido);
+  }
+
+  .grade {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'foto identidade'
+      'texto texto';
+    align-items: center;
+    gap: 1.5rem 1.25rem;
+  }
+
+  .bloco-foto {
+    grid-area: foto;
+    position: relative;
+    width: 6.75rem;
+    height: 6.75rem;
+  }
+
+  /* Trama de empunhadura (tsuka-ito) atrás da foto, deslocada como uma sombra de metal. */
+  .bloco-foto::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translate(0.55rem, 0.55rem);
+    background: var(--tsuka-ito);
+    clip-path: var(--corte);
+  }
+
+  .moldura-foto {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--prata-2), var(--metal-2) 45%, var(--bordo-2));
+    clip-path: var(--corte);
+  }
+
+  .moldura-foto :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: var(--corte);
+  }
+
+  /* Reflexo especular que passa uma vez pela aresta da moldura ao carregar. */
+  .moldura-foto::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 42%, rgb(212 206 205 / 0.38) 50%, transparent 58%);
+    transform: translateX(-130%);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .moldura-foto::after {
+      animation: reflexo 1.5s 0.7s var(--ease-lamina) 1 forwards;
+    }
+  }
+
+  @keyframes reflexo {
+    to {
+      transform: translateX(130%);
+    }
+  }
+
+  .identidade {
+    grid-area: identidade;
+    min-width: 0;
   }
 
   .local {
-    color: var(--suave);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
   }
 
   h1 {
-    margin-top: 0.4rem;
-    font-size: clamp(2.2rem, 6vw, 3.6rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    margin-top: 0.25rem;
+    font-size: clamp(1.7rem, 6.5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 
   .cargo {
-    margin-top: 0.5rem;
-    font-size: 1.35rem;
-    color: var(--destaque);
+    margin-top: 0.35rem;
+    color: var(--prata);
+    font-family: var(--fonte-display), system-ui, sans-serif;
+    font-size: clamp(0.95rem, 3vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
   }
 
-  .valor {
-    margin-top: 1.25rem;
-    max-width: 38rem;
-    font-size: 1.15rem;
+  .texto {
+    grid-area: texto;
+  }
+
+  .resumo {
+    max-width: 40rem;
+    font-size: 1.1rem;
   }
 
   .acoes {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
-    margin-top: 2rem;
+    margin-top: 1.75rem;
+  }
+
+  @media (min-width: 48rem) {
+    .hero {
+      padding-block: 5rem 6rem;
+    }
+
+    .grade {
+      grid-template-columns: 14.5rem 1fr;
+      grid-template-areas:
+        'foto identidade'
+        'foto texto';
+      align-items: start;
+      gap: 1.25rem 3rem;
+    }
+
+    .bloco-foto {
+      --chanfro: 24px;
+      width: 14.5rem;
+      height: 14.5rem;
+    }
+
+    .bloco-foto::before {
+      transform: translate(0.9rem, 0.9rem);
+    }
   }
 </style>

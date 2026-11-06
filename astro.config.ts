@@ -30,6 +30,15 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.fontsource(),
+      name: 'Chakra Petch',
+      cssVariable: '--fonte-display',
+      weights: [600, 700],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['system-ui', 'sans-serif'],
+    },
+    {
+      provider: fontProviders.fontsource(),
       name: 'IBM Plex Sans',
       cssVariable: '--fonte-texto',
       weights: [400, 600],

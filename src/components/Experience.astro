@@ -2,10 +2,11 @@
 import { experiencias } from '../data/perfil';
 ---
 
-<ol class="lista">
-  {experiencias.map((e) => (
-    <li>
-      <p class="mono suave">{e.periodo}</p>
+<ol class="linha-do-tempo">
+  {experiencias.map((e, i) => (
+    <li data-revelar style={`--ordem: ${i}`}>
+      <span class="no" aria-hidden="true" />
+      <p class="periodo mono suave">{e.periodo}</p>
       <h3>{e.cargo}</h3>
       <p class="empresa">{e.empresa}</p>
       <p class="resumo">{e.resumo}</p>
@@ -15,32 +16,49 @@ import { experiencias } from '../data/perfil';
 </ol>
 
 <style>
-  .lista {
+  .linha-do-tempo {
+    position: relative;
     display: grid;
-    gap: 2rem;
+    gap: 2.5rem;
+    margin-left: 0.4rem;
+    padding-left: 2.25rem;
+    border-left: 2px solid var(--metal);
   }
 
-  li + li {
-    padding-top: 2rem;
-    border-top: 1px solid var(--linha);
+  li {
+    position: relative;
+  }
+
+  /* Losango bordô sobre a linha: marca cada passo da trajetória. */
+  .no {
+    position: absolute;
+    top: 0.45rem;
+    left: calc(-2.25rem - 7px);
+    width: 12px;
+    height: 12px;
+    background: var(--bordo-2);
+    outline: 2px solid var(--prata);
+    transform: rotate(45deg);
   }
 
   h3 {
-    margin-top: 0.25rem;
-    font-size: 1.2rem;
-    font-weight: 600;
+    margin-top: 0.2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
   }
 
   .empresa {
-    color: var(--destaque);
+    color: var(--prata);
+    font-weight: 600;
   }
 
   .resumo {
+    max-width: 40rem;
     margin-top: 0.6rem;
-    max-width: 38rem;
   }
 
   .tec {
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
   }
 </style>

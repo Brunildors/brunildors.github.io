@@ -4,39 +4,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
-import About from '../components/About.astro';
 import Experience from '../components/Experience.astro';
-import ProjectItem from '../components/ProjectItem.astro';
+import Stack from '../components/Stack.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 import Education from '../components/Education.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 
 const projetos = await projetosPublicados();
+const destaque = projetos.find((p) => p.data.destaque);
+const demais = projetos.filter((p) => p !== destaque);
+
+const propsDoCard = (p: (typeof projetos)[number]) => ({
+  slug: p.id,
+  titulo: p.data.titulo,
+  resumo: p.data.resumo,
+  stack: p.data.stack,
+  icone: p.data.icone,
+  capa: p.data.capa,
+  repositorio: p.data.repositorio,
+  demo: p.data.demo,
+});
 ---
 
 <BaseLayout jsonLd>
   <Header />
   <main id="conteudo">
     <Hero />
-    <Section id="sobre" titulo="Sobre">
-      <About />
-    </Section>
     <Section id="experiencia" titulo="Experiência">
       <Experience />
     </Section>
     <Section id="projetos" titulo="Projetos">
-      <ul class="projetos">
-        {projetos.map((p) => (
+      <Stack />
+      {destaque && <ProjectCard {...propsDoCard(destaque)} destaque ordem={0} />}
+      <ul class="vitrine">
+        {demais.map((p, i) => (
           <li>
-            <ProjectItem
-              slug={p.id}
-              titulo={p.data.titulo}
-              resumo={p.data.resumo}
-              stack={p.data.stack}
-              capa={p.data.capa}
-              repositorio={p.data.repositorio}
-              demo={p.data.demo}
-            />
+            <ProjectCard {...propsDoCard(p)} ordem={i + 1} />
           </li>
         ))}
       </ul>
@@ -52,13 +56,15 @@ const projetos = await projetosPublicados();
 </BaseLayout>
 
 <style>
-  .projetos {
+  .vitrine {
     display: grid;
-    gap: 2.5rem;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
 
-  .projetos > li + li {
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--linha);
+  @media (min-width: 52rem) {
+    .vitrine {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 </style>

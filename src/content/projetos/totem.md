@@ -3,6 +3,7 @@ titulo: Front-end de um totem de compras
 resumo: Protótipo de interface de autoatendimento criado no Figma para um projeto da faculdade.
 stack: [Figma, UX/UI]
 ordem: 4
+icone: tabler:device-tablet
 papel: Designer de interface
 ---
 

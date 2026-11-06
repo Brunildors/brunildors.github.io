@@ -1,6 +1,8 @@
 # Portfólio — Lucas Silva de Lira
 
-Portfólio web de desenvolvedor de sistemas com IA. Site estático feito com **Astro** e **TypeScript**, com CSS próprio (sem framework de estilos) e fontes IBM Plex hospedadas no próprio site.
+Portfólio web de desenvolvedor de sistemas com IA. Site estático feito com **Astro** e **TypeScript**, com CSS próprio (sem framework de estilos) e fontes Chakra Petch e IBM Plex hospedadas no próprio site.
+
+O visual segue uma paleta própria, em `src/styles/global.css`: grafite, metal, vinho, bordô e prata. As animações de passagem entre seções ficam em `src/scripts/passagem.ts` e só rodam com JavaScript e sem pedido de movimento reduzido.
 
 ## Rodar localmente
 
@@ -16,10 +18,11 @@ npm run assets     # gera o PDF do CV e a imagem Open Graph (precisa de Brave, C
 
 ## Como editar o conteúdo
 
-- Perfil, experiência, formação, cursos e competências: `src/data/perfil.ts`
+- Perfil, resumo do topo, experiência, formação, cursos e competências (com ícones): `src/data/perfil.ts`
 - Contatos e redes (e atalhos `/github`, `/linkedin`, `/whatsapp`): `src/data/redes.ts`
 - Projetos: um arquivo `.md` em `src/content/projetos/` (imagens em `src/assets/projetos/<slug>/`).
   - `repositorio` e `demo` criam os botões "Código no GitHub" e "Jogar"; sem eles, os botões não aparecem.
+  - `destaque: true` faz o projeto virar o card grande da vitrine; `icone` é o emblema usado quando não há capa.
   - `rascunho: true` esconde o projeto.
 - Depois de mudar o conteúdo, rode `npm run assets` para atualizar o CV em PDF.
 

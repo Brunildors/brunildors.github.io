@@ -2,60 +2,68 @@
 import { formacao, cursos } from '../data/perfil';
 ---
 
-<ul class="formacao">
-  {formacao.map((f) => (
-    <li>
-      <p class="curso">{f.curso}</p>
-      <p>{f.instituicao}</p>
-      <p class="mono suave">
-        {f.periodo} · {f.status}
-      </p>
-    </li>
-  ))}
-</ul>
+<div class="paineis">
+  <section class="painel" data-revelar aria-labelledby="titulo-formacao">
+    <h3 id="titulo-formacao">Formação</h3>
+    <ul>
+      {formacao.map((f) => (
+        <li>
+          <p class="curso">{f.curso}</p>
+          <p>{f.instituicao}</p>
+          <p class="mono suave">
+            {f.periodo} · {f.status}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-<h3>Cursos</h3>
-<ul class="cursos">
-  {cursos.map((c) => (
-    <li>
-      <span>{c.nome}</span>
-      <span class="mono suave">{c.plataforma}</span>
-    </li>
-  ))}
-</ul>
+  <section class="painel" data-revelar style="--ordem: 1" aria-labelledby="titulo-cursos">
+    <h3 id="titulo-cursos">Cursos</h3>
+    <ul>
+      {cursos.map((c) => (
+        <li>
+          <p class="curso">{c.nome}</p>
+          <p class="mono suave">{c.plataforma}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</div>
 
 <style>
-  .formacao {
+  .paineis {
     display: grid;
     gap: 1.5rem;
   }
 
-  .curso {
-    font-weight: 600;
+  .painel {
+    padding: 1.75rem;
+    background: linear-gradient(160deg, var(--grafite), var(--grafite-2));
   }
 
   h3 {
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--linha);
-    font-size: 1.05rem;
+    margin-bottom: 1.25rem;
+    color: var(--prata);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .curso {
+    color: var(--prata-2);
     font-weight: 600;
   }
 
-  .cursos {
-    display: grid;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-  }
-
-  .cursos li {
-    display: grid;
-    gap: 0.1rem 1rem;
-  }
-
-  @media (min-width: 40rem) {
-    .cursos li {
-      grid-template-columns: 16rem 1fr;
+  @media (min-width: 52rem) {
+    .paineis {
+      grid-template-columns: 1.2fr 1fr;
     }
   }
 </style>

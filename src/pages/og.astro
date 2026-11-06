@@ -10,14 +10,16 @@ import { perfil } from '../data/perfil';
     <meta charset="utf-8" />
     <meta name="robots" content="noindex" />
     <title>og</title>
+    <Font cssVariable="--fonte-display" />
     <Font cssVariable="--fonte-texto" />
     <Font cssVariable="--fonte-mono" />
   </head>
   <body>
     <div class="cartao">
-      <p class="mono local">{perfil.local}</p>
+      <p class="mono suave local">{perfil.local}</p>
       <h1>{perfil.nome}</h1>
       <p class="cargo">{perfil.cargo}</p>
+      <span class="lamina" aria-hidden="true"></span>
     </div>
   </body>
 </html>
@@ -33,25 +35,34 @@ import { perfil } from '../data/perfil';
     justify-content: center;
     width: 1200px;
     height: 630px;
-    padding: 0 90px;
-    border-left: 16px solid var(--destaque);
+    padding: 0 96px;
+    border-left: 18px solid var(--bordo-2);
   }
 
   .local {
-    color: var(--suave);
     font-size: 28px;
   }
 
   h1 {
-    margin-top: 16px;
-    font-size: 84px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    margin-top: 14px;
+    font-size: 82px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 
   .cargo {
-    margin-top: 16px;
-    color: var(--destaque);
+    margin-top: 14px;
+    color: var(--prata);
+    font-family: var(--fonte-display), system-ui, sans-serif;
     font-size: 40px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .lamina {
+    width: 520px;
+    height: 4px;
+    margin-top: 36px;
   }
 </style>

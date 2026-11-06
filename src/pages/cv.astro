@@ -77,7 +77,7 @@ const projetos = await projetosPublicados();
       <h2>Competências</h2>
       {competencias.map((g) => (
         <p>
-          <strong>{g.grupo}:</strong> {g.itens.join(', ')}
+          <strong>{g.grupo}:</strong> {g.itens.map((i) => i.nome).join(', ')}
         </p>
       ))}
     </main>

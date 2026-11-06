@@ -6,7 +6,7 @@ interface Props {
   icone?: string;
   /** Texto menor em fonte mono ao lado do rótulo (usuário, número, e-mail). */
   detalhe?: string;
-  /** Botão preenchido: use no máximo um por trecho de tela. */
+  /** Botão preenchido em bordô: use no máximo um por trecho de tela. */
   primario?: boolean;
   /** Atributo `download` para arquivos. */
   baixar?: boolean;
@@ -37,36 +37,42 @@ const externo = /^https?:\/\//.test(href);
     gap: 0.55rem;
     min-height: 2.75rem;
     padding: 0.5rem 1.15rem;
-    border: 1.5px solid var(--linha);
+    max-width: 100%;
+    border: 1.5px solid color-mix(in srgb, var(--prata) 65%, var(--grafite));
     border-radius: 999px;
-    color: var(--texto);
+    color: var(--prata-2);
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.2;
     text-decoration: none;
     transition:
       border-color 0.15s,
-      color 0.15s,
       background-color 0.15s;
   }
 
   .pilula:hover {
-    border-color: var(--destaque);
-    color: var(--destaque);
+    border-color: var(--prata);
+    background: var(--vinho);
   }
 
   .primario {
-    background: var(--destaque);
-    border-color: var(--destaque);
-    color: var(--sobre-destaque);
+    background: var(--bordo-2);
+    border-color: var(--bordo-2);
   }
 
   .primario:hover {
-    color: var(--sobre-destaque);
-    filter: brightness(1.1);
+    border-color: var(--prata-2);
+    background: var(--bordo-2);
+    filter: brightness(1.12);
+  }
+
+  .pilula span:first-of-type {
+    white-space: nowrap;
   }
 
   .detalhe {
+    min-width: 0;
+    overflow-wrap: anywhere;
     font-size: 0.85rem;
     font-weight: 400;
   }

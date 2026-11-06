@@ -10,6 +10,10 @@ const projetos = defineCollection({
       resumo: z.string(),
       stack: z.array(z.string()),
       ordem: z.number(),
+      /** Projeto em destaque: aparece como card grande no topo da vitrine. */
+      destaque: z.boolean().default(false),
+      /** Emblema do card quando o projeto não tem capa (nome do ícone Tabler, ex.: tabler:trophy). */
+      icone: z.string().default('tabler:code'),
       /** Projeto com `rascunho: true` não é publicado. */
       rascunho: z.boolean().default(false),
       papel: z.string(),

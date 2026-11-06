@@ -4,20 +4,37 @@ import PillLink from './PillLink.astro';
 import SocialLinks from './SocialLinks.astro';
 ---
 
-<p class="chamada">
-  Se quiser falar sobre um projeto, uma vaga ou só trocar uma ideia, escolha o canal que preferir.
-</p>
-
-<div class="botoes">
-  <SocialLinks detalhes />
-  <PillLink href={perfil.cv} icone="tabler:download" baixar>
-    Baixar currículo
-  </PillLink>
+<div class="chamada painel" data-revelar>
+  <p class="frase">Vamos construir algo juntos?</p>
+  <p class="apoio">
+    Se quiser falar sobre um projeto, uma vaga ou só trocar uma ideia, escolha o canal que preferir.
+  </p>
+  <div class="botoes">
+    <SocialLinks detalhes />
+    <PillLink href={perfil.cv} icone="tabler:download" primario baixar>
+      Baixar currículo
+    </PillLink>
+  </div>
 </div>
 
 <style>
   .chamada {
+    --chanfro: 22px;
+    padding: 2.25rem 1.75rem;
+    background: linear-gradient(90deg, var(--grafite) 35%, transparent 90%), var(--tsuka-ito);
+  }
+
+  .frase {
+    font-family: var(--fonte-display), system-ui, sans-serif;
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .apoio {
     max-width: 34rem;
+    margin-top: 0.75rem;
   }
 
   .botoes {
@@ -25,6 +42,12 @@ import SocialLinks from './SocialLinks.astro';
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 0.6rem;
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  @media (min-width: 52rem) {
+    .chamada {
+      padding: 3rem 3.25rem;
+    }
   }
 </style>

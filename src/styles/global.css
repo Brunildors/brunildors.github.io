@@ -1,27 +1,46 @@
-/* Tokens. Claro por padrão; escuro automático pelo sistema do visitante. */
+/*
+ * Paleta "lâmina fosca", a partir da análise de cores do Lucas:
+ * grafite dominante, metal nos painéis, vinho nas transições,
+ * bordô como destaque e prata nos textos e nas arestas.
+ * Bordô nunca é cor de texto: sobre o grafite ele não tem contraste para leitura.
+ */
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
-  --fundo: #f6f7f7;
-  --texto: #14191f;
-  --suave: #55606b;
-  --linha: #7b858f;
-  --destaque: #0b5c8e;
-  --sobre-destaque: #ffffff;
+  --grafite: #1f1a1c;
+  --grafite-2: #292427;
+  --metal: #4a4346;
+  --metal-2: #5e565b;
+  --vinho: #3b2e31;
+  --vinho-2: #4d3a3e;
+  --bordo: #6e2b30;
+  --bordo-2: #8b333a;
+  --prata: #afaaa9;
+  --prata-2: #d4cecd;
 
-  --largura: 62rem;
+  /* Ruído finíssimo: acabamento de metal fosco. */
+  --ruido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E");
+
+  /* Trama em losango da empunhadura da katana (tsuka-ito). */
+  --tsuka-ito:
+    repeating-linear-gradient(45deg, var(--vinho-2) 0 5px, transparent 5px 11px),
+    repeating-linear-gradient(-45deg, var(--vinho-2) 0 5px, transparent 5px 11px),
+    linear-gradient(var(--vinho), var(--vinho));
+
+  /* Corte das arestas: canto superior esquerdo e inferior direito. */
+  --chanfro: 14px;
+  --corte: polygon(
+    var(--chanfro) 0,
+    100% 0,
+    100% calc(100% - var(--chanfro)),
+    calc(100% - var(--chanfro)) 100%,
+    0 100%,
+    0 var(--chanfro)
+  );
+
+  --largura: 70rem;
   --gutter: 1.25rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fundo: #111417;
-    --texto: #e7eaec;
-    --suave: #a2abb3;
-    --linha: #5c666f;
-    --destaque: #6cb6e8;
-    --sobre-destaque: #0b1620;
-  }
+  --ease-lamina: cubic-bezier(0.2, 0.75, 0.1, 1);
 }
 
 *,
@@ -31,26 +50,27 @@
 }
 
 html {
-  background: var(--fundo);
-  color: var(--texto);
+  background: var(--grafite);
+  color: var(--prata-2);
   font-family: var(--fonte-texto), system-ui, sans-serif;
   font-size: 100%;
   line-height: 1.65;
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: 5rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  background: var(--fundo);
-  color: var(--texto);
+  background-color: var(--grafite);
+  background-image: var(--ruido);
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.2;
   margin: 0;
+  font-family: var(--fonte-display), system-ui, sans-serif;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
@@ -66,8 +86,10 @@ ol {
 }
 
 a {
-  color: var(--destaque);
-  text-underline-offset: 0.2em;
+  color: var(--prata-2);
+  text-decoration-color: var(--bordo-2);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.22em;
 }
 
 img {
@@ -81,7 +103,7 @@ img {
   margin-inline: auto;
 }
 
-/* Dados que são de fato "de máquina": datas, e-mails, repositórios, tecnologias. */
+/* Dados que são de fato "de máquina": datas, contatos, tecnologias. */
 .mono,
 code {
   font-family: var(--fonte-mono), ui-monospace, monospace;
@@ -89,17 +111,11 @@ code {
 }
 
 .suave {
-  color: var(--suave);
-}
-
-/* Contorno fino das imagens (foto, capas de projeto). */
-.moldura {
-  border: 1px solid var(--linha);
-  border-radius: 0.5rem;
+  color: var(--prata);
 }
 
 dt {
-  color: var(--suave);
+  color: var(--prata);
   font-size: 0.9rem;
 }
 
@@ -107,8 +123,43 @@ dd {
   margin: 0;
 }
 
+/* Painel de metal fosco com arestas cortadas e reflexo no fio de cima. */
+.painel {
+  position: relative;
+  padding: 1.5rem;
+  background: linear-gradient(160deg, var(--grafite-2), var(--grafite));
+  clip-path: var(--corte);
+}
+
+.painel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto var(--chanfro);
+  height: 1px;
+  background: linear-gradient(90deg, var(--prata-2), transparent 70%);
+  opacity: 0.55;
+}
+
+.chanfrado {
+  clip-path: var(--corte);
+}
+
+/* Linha-lâmina: segmento bordô seguido do fio prata que se apaga. */
+.lamina {
+  display: block;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--bordo-2) 0 7rem,
+    var(--prata) 7rem,
+    rgb(175 170 169 / 0.18) 75%,
+    transparent
+  );
+  transform-origin: left center;
+}
+
 :focus-visible {
-  outline: 2px solid var(--destaque);
+  outline: 2px solid var(--prata-2);
   outline-offset: 3px;
 }
 
@@ -116,25 +167,61 @@ dd {
   position: absolute;
   left: var(--gutter);
   top: -4rem;
-  padding: 0.6rem 1rem;
-  background: var(--destaque);
-  color: var(--sobre-destaque);
-  border-radius: 0.4rem;
   z-index: 10;
+  padding: 0.6rem 1rem;
+  background: var(--bordo-2);
+  color: var(--prata-2);
+  border-radius: 999px;
 }
 
 .pular:focus {
   top: 0.75rem;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
+/*
+ * Passagem entre seções. Só com JavaScript (html.js) e sem pedido de menos movimento:
+ * sem isso a página fica estática e totalmente visível.
+ */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
+
+  .js [data-secao] .lamina {
+    transform: scaleX(0);
+    transition: transform 0.9s var(--ease-lamina);
+  }
+
+  .js [data-secao] .titulo-secao {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.7s var(--ease-lamina) 0.25s;
+  }
+
+  .js [data-secao] [data-revelar] {
+    opacity: 0.35;
+    transform: translateY(1.25rem);
+    transition:
+      opacity 0.7s ease,
+      transform 0.8s var(--ease-lamina);
+    transition-delay: calc(0.35s + var(--ordem, 0) * 90ms);
+  }
+
+  .js [data-secao].visivel .lamina {
+    transform: none;
+  }
+
+  .js [data-secao].visivel .titulo-secao {
+    clip-path: inset(0);
+  }
+
+  .js [data-secao].visivel [data-revelar] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Contorno fino com arestas cortadas, para imagens (capas de projeto). */
+.moldura {
+  border: 1px solid var(--metal-2);
+  clip-path: var(--corte);
 }

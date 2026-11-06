@@ -2,10 +2,11 @@
 import { perfil } from '../data/perfil';
 
 const links = [
-  { href: '/#sobre', rotulo: 'Sobre' },
-  { href: '/#experiencia', rotulo: 'Experiência' },
-  { href: '/#projetos', rotulo: 'Projetos' },
-  { href: '/#contato', rotulo: 'Contato' },
+  { id: 'topo', rotulo: 'Sobre' },
+  { id: 'experiencia', rotulo: 'Experiência' },
+  { id: 'projetos', rotulo: 'Projetos' },
+  { id: 'formacao', rotulo: 'Formação' },
+  { id: 'contato', rotulo: 'Contato' },
 ];
 ---
 
@@ -14,13 +15,14 @@ const links = [
     <a href="/" class="nome">
       {perfil.nome}
     </a>
-    <nav aria-label="Principal">
+    <nav aria-label="Principal" data-menu>
       <ul>
         {links.map((l) => (
           <li>
-            <a href={l.href}>{l.rotulo}</a>
+            <a href={`/#${l.id}`}>{l.rotulo}</a>
           </li>
         ))}
+        <li class="marcador" data-marcador aria-hidden="true"></li>
       </ul>
     </nav>
   </div>
@@ -31,8 +33,9 @@ const links = [
     position: sticky;
     top: 0;
     z-index: 5;
-    background: var(--fundo);
-    border-bottom: 1px solid var(--linha);
+    background-color: var(--grafite);
+    background-image: var(--ruido);
+    border-bottom: 1px solid var(--metal);
   }
 
   .barra {
@@ -40,31 +43,59 @@ const links = [
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 0.25rem 1.5rem;
-    padding-block: 0.6rem;
+    gap: 0.15rem 1.5rem;
+    padding-block: 0.55rem;
   }
 
   .nome {
-    color: var(--texto);
-    font-weight: 600;
+    color: var(--prata-2);
+    font-family: var(--fonte-display), system-ui, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-decoration: none;
+    text-transform: uppercase;
   }
 
   ul {
+    position: relative;
     display: flex;
-    gap: 0.25rem;
+    flex-wrap: wrap;
   }
 
   nav a {
     display: block;
-    padding: 0.4rem 0.7rem;
-    color: var(--suave);
-    font-size: 0.95rem;
+    padding: 0.55rem 0.8rem;
+    color: var(--prata);
+    font-family: var(--fonte-display), system-ui, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
     text-decoration: none;
+    text-transform: uppercase;
   }
 
-  nav a:hover {
-    color: var(--texto);
-    text-decoration: underline;
+  nav a:hover,
+  nav a[aria-current] {
+    color: var(--prata-2);
+  }
+
+  /* Marcador bordô que desliza até a seção atual (posição vem de passagem.ts). */
+  .marcador {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--w, 0px);
+    height: 3px;
+    background: var(--bordo-2);
+    transform: translate(var(--x, 0px), var(--y, 0px));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .marcador {
+      transition:
+        transform 0.45s var(--ease-lamina),
+        width 0.45s var(--ease-lamina);
+    }
   }
 </style>

@@ -2,7 +2,8 @@
 titulo: Sistema multiagente de automação
 resumo: Sistema com vários agentes de IA que automatiza etapas da produção de uma assessoria contábil.
 stack: [Claude Code, Codex, n8n, LLMs]
-ordem: 1
+ordem: 2
+icone: tabler:topology-star-3
 papel: Analista e desenvolvedor do sistema
 contexto: Projeto criado para a Ellicon Assessoria Contábil
 ---

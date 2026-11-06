@@ -22,9 +22,10 @@ const d = entry.data;
   <Header />
   <main id="conteudo" class="container">
     <a href="/#projetos" class="voltar">
-      Todos os projetos
+      &larr; Todos os projetos
     </a>
     <h1>{d.titulo}</h1>
+    <span class="lamina" aria-hidden="true"></span>
     <p class="resumo">{d.resumo}</p>
 
     <div class="botoes">
@@ -52,7 +53,7 @@ const d = entry.data;
       />
     )}
 
-    <dl class="ficha">
+    <dl class="ficha painel">
       <div>
         <dt>Meu papel</dt>
         <dd>{d.papel}</dd>
@@ -80,25 +81,27 @@ const d = entry.data;
 
 <style>
   main {
-    padding-block: 2.5rem 4rem;
-    max-width: 44rem;
+    max-width: 46rem;
+    padding-block: 2.5rem 4.5rem;
   }
 
   .voltar {
     font-size: 0.95rem;
+    color: var(--prata);
   }
 
   h1 {
-    margin-top: 1.25rem;
-    font-size: clamp(1.9rem, 5vw, 2.6rem);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    margin-block: 1.25rem 0.9rem;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 
   .resumo {
-    margin-top: 0.75rem;
+    margin-top: 1.25rem;
     font-size: 1.15rem;
-    color: var(--suave);
+    color: var(--prata);
   }
 
   .botoes {
@@ -110,14 +113,13 @@ const d = entry.data;
 
   main :global(.capa) {
     margin-top: 2rem;
+    width: 100%;
   }
 
   .ficha {
     display: grid;
     gap: 0.9rem;
     margin: 2rem 0 0;
-    padding-block: 1.5rem;
-    border-block: 1px solid var(--linha);
   }
 
   .texto {
@@ -126,8 +128,10 @@ const d = entry.data;
 
   .texto :global(h2) {
     margin-top: 2rem;
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .texto :global(p),
@@ -147,8 +151,8 @@ const d = entry.data;
   .aviso {
     margin-top: 2.5rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--linha);
-    color: var(--suave);
+    border-top: 1px solid var(--metal);
+    color: var(--prata);
     font-size: 0.9rem;
   }
 </style>

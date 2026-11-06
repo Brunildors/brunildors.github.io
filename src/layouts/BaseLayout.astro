@@ -45,11 +45,11 @@ const pessoa = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f6f7f7" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#111417" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#1f1a1c" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {noindex && <meta name="robots" content="noindex" />}
+    <Font cssVariable="--fonte-display" preload />
     <Font cssVariable="--fonte-texto" preload />
     <Font cssVariable="--fonte-mono" />
 
@@ -62,11 +62,19 @@ const pessoa = {
     <meta name="twitter:card" content="summary_large_image" />
 
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(pessoa)} />}
+
+    <!-- As animações de passagem só valem com JavaScript; sem ele a página fica estática e completa. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
   </head>
   <body>
     <a href="#conteudo" class="pular">
       Pular para o conteúdo
     </a>
     <slot />
+    <script>
+      import '../scripts/passagem.ts';
+    </script>
   </body>
 </html>
