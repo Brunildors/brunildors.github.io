@@ -1,12 +1,19 @@
 ---
-import { formacao, cursos } from '../data/perfil';
+import { textos, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { formacao, cursos } = textos(lang);
 ---
 
 <div class="paineis">
   <section class="painel" data-revelar aria-labelledby="titulo-formacao">
-    <h3 id="titulo-formacao">Formação</h3>
+    <h3 id="titulo-formacao">{formacao.titulo}</h3>
     <ul>
-      {formacao.map((f) => (
+      {formacao.itens.map((f) => (
         <li>
           <p class="curso">{f.curso}</p>
           <p>{f.instituicao}</p>
@@ -19,9 +26,9 @@ import { formacao, cursos } from '../data/perfil';
   </section>
 
   <section class="painel" data-revelar style="--ordem: 1" aria-labelledby="titulo-cursos">
-    <h3 id="titulo-cursos">Cursos</h3>
+    <h3 id="titulo-cursos">{cursos.titulo}</h3>
     <ul>
-      {cursos.map((c) => (
+      {cursos.itens.map((c) => (
         <li>
           <p class="curso">{c.nome}</p>
           <p class="mono suave">{c.plataforma}</p>
@@ -35,11 +42,6 @@ import { formacao, cursos } from '../data/perfil';
   .paineis {
     display: grid;
     gap: 1.5rem;
-  }
-
-  .painel {
-    padding: 1.75rem;
-    background: linear-gradient(160deg, var(--grafite), var(--grafite-2));
   }
 
   h3 {

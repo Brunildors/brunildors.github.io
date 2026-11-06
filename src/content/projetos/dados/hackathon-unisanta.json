@@ -1,0 +1,9 @@
+{
+  "ordem": 3,
+  "icone": "tabler:trophy",
+  "stack": ["React", "TypeScript", "Vite", "n8n", "Supabase", "Gemini"],
+  "capa": "../../../assets/projetos/hackathon-unisanta/logo-unisanta.png",
+  "capaAjuste": "conter",
+  "repositorio": "https://github.com/Brunildors/projeto-atlas",
+  "demo": "https://brunildors.github.io/projeto-atlas/"
+}

@@ -3,21 +3,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import PillLink from '../components/PillLink.astro';
 import { perfil } from '../data/perfil';
+import { alternativasHome, rotaHome, textos } from '../i18n';
+
+// O GitHub Pages serve uma única página 404; por isso ela fala os dois idiomas.
+const pt = textos('pt');
+const en = textos('en');
 ---
 
-<BaseLayout title={`Página não encontrada | ${perfil.nome}`} noindex>
-  <Header />
+<BaseLayout lang="pt" title={`404 | ${perfil.nome}`} noindex>
+  <Header lang="pt" alternativas={alternativasHome} />
   <main id="conteudo" class="container">
     <div class="painel">
       <p class="mono suave">$ cd {Astro.url.pathname}</p>
       <p class="mono suave">bash: página: command not found</p>
-      <h1>404: página não encontrada</h1>
-      <p>O endereço que você abriu não existe ou foi movido.</p>
-      <div class="botao">
-        <PillLink href="/" icone="tabler:arrow-left" primario>
-          Voltar ao início
-        </PillLink>
-      </div>
+
+      <section lang="pt-BR" aria-labelledby="erro-pt">
+        <h1 id="erro-pt">{pt.erro404.titulo}</h1>
+        <p>{pt.erro404.texto}</p>
+        <div class="botao">
+          <PillLink href={rotaHome('pt')} icone="tabler:arrow-left" primario>
+            {pt.erro404.voltar}
+          </PillLink>
+        </div>
+      </section>
+
+      <section lang="en" aria-labelledby="erro-en">
+        <h2 id="erro-en">{en.erro404.titulo}</h2>
+        <p>{en.erro404.texto}</p>
+        <div class="botao">
+          <PillLink href={rotaHome('en')} icone="tabler:arrow-left">
+            {en.erro404.voltar}
+          </PillLink>
+        </div>
+      </section>
     </div>
   </main>
 </BaseLayout>
@@ -32,15 +50,25 @@ import { perfil } from '../data/perfil';
     padding: 2rem;
   }
 
-  h1 {
-    margin-block: 1.5rem 0.75rem;
-    font-size: 1.9rem;
+  section {
+    margin-top: 1.75rem;
+  }
+
+  section + section {
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--metal);
+  }
+
+  h1,
+  h2 {
+    margin-bottom: 0.6rem;
+    font-size: 1.6rem;
     font-weight: 700;
     letter-spacing: 0.03em;
     text-transform: uppercase;
   }
 
   .botao {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
   }
 </style>

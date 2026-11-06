@@ -1,18 +1,26 @@
 ---
 import { Image } from 'astro:assets';
 import foto from '../assets/foto-perfil.jpg';
-import { perfil } from '../data/perfil';
+import { perfil, curriculo } from '../data/perfil';
+import { email } from '../data/redes';
+import { textos, type Lang } from '../i18n';
 import PillLink from './PillLink.astro';
-import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = textos(lang);
 ---
 
-<section id="topo" class="hero" data-secao aria-label="Apresentação">
+<section id="topo" class="hero" data-secao aria-label={t.ui.apresentacao}>
   <div class="container grade">
     <div class="bloco-foto" data-revelar>
       <div class="moldura-foto">
         <Image
           src={foto}
-          alt="Foto de rosto de Lucas Silva de Lira"
+          alt={t.perfil.fotoAlt}
           width={230}
           height={230}
           densities={[1, 2]}
@@ -23,18 +31,20 @@ import SocialLinks from './SocialLinks.astro';
     </div>
 
     <div class="identidade" data-revelar style="--ordem: 1">
-      <p class="local mono suave">{perfil.local}</p>
+      <p class="local mono suave">{t.perfil.local}</p>
       <h1>{perfil.nome}</h1>
-      <p class="cargo">{perfil.cargo}</p>
+      <p class="cargo">{t.perfil.cargo}</p>
     </div>
 
     <div class="texto" data-revelar style="--ordem: 2">
-      <p class="resumo">{perfil.resumo}</p>
+      <p class="resumo">{t.perfil.resumo}</p>
       <div class="acoes">
-        <PillLink href={perfil.cv} icone="tabler:download" primario baixar>
-          Baixar currículo
+        <PillLink href={curriculo[lang]} icone="tabler:download" primario baixar>
+          {t.hero.baixarCurriculo}
         </PillLink>
-        <SocialLinks />
+        <PillLink href={email.url} icone={email.icone}>
+          {t.hero.email}
+        </PillLink>
       </div>
     </div>
   </div>

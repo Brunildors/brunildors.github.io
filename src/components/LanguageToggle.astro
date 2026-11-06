@@ -1,0 +1,63 @@
+---
+import { textos, type Alternativas, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  /** A mesma página no outro idioma. */
+  alternativas: Alternativas;
+}
+
+const { lang, alternativas } = Astro.props;
+const t = textos(lang);
+const opcoes: { codigo: Lang; rotulo: string; hreflang: string }[] = [
+  { codigo: 'pt', rotulo: 'PT', hreflang: 'pt-BR' },
+  { codigo: 'en', rotulo: 'EN', hreflang: 'en' },
+];
+---
+
+<nav class="idioma" aria-label={t.ui.idioma}>
+  {opcoes.map((o) => (
+    <a
+      href={alternativas[o.codigo]}
+      lang={o.hreflang}
+      hreflang={o.hreflang}
+      aria-current={o.codigo === lang ? 'true' : undefined}
+    >
+      {o.rotulo}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .idioma {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  a {
+    padding: 0.4rem 0.65rem;
+    color: var(--prata);
+    font-family: var(--fonte-display), system-ui, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  a + a {
+    border-left: 1px solid var(--metal-2);
+  }
+
+  a:hover {
+    color: var(--prata-2);
+  }
+
+  /* O idioma atual leva o bordô: sublinhado grosso, como o marcador do menu. */
+  a[aria-current] {
+    color: var(--prata-2);
+    text-decoration: underline;
+    text-decoration-color: var(--bordo-2);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.4em;
+  }
+</style>

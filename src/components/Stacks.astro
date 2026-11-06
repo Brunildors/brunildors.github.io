@@ -1,0 +1,189 @@
+---
+import { Icon } from 'astro-icon/components';
+import { stacks } from '../data/stacks';
+import { textos, traduz, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = textos(lang);
+const total = stacks.reduce((soma, grupo) => soma + grupo.itens.length, 0);
+---
+
+<div
+  class="stacks"
+  data-stacks
+  data-filtro-atual="todas"
+  data-status-todas={t.stacks.statusTodas}
+  data-status-filtro={t.stacks.statusFiltro}
+  data-status-filtro-uma={t.stacks.statusFiltroUma}
+>
+  <!-- Só aparece com JavaScript; sem ele todos os grupos já estão visíveis. -->
+  <div class="filtros" role="group" aria-label={t.stacks.filtrarPor}>
+    <button type="button" data-filtro="todas" data-nome={t.stacks.todas} aria-pressed="true">
+      {t.stacks.todas}
+      <span class="contagem mono">{total}</span>
+    </button>
+    {stacks.map((grupo) => (
+      <button
+        type="button"
+        data-filtro={grupo.id}
+        data-nome={t.stacks.categorias[grupo.id]}
+        aria-pressed="false"
+      >
+        {t.stacks.categorias[grupo.id]}
+        <span class="contagem mono">{grupo.itens.length}</span>
+      </button>
+    ))}
+  </div>
+
+  <p class="sr-only" role="status" aria-live="polite" data-status></p>
+
+  <div class="grupos">
+    {stacks.map((grupo, i) => (
+      <section class="grupo" data-grupo={grupo.id} data-revelar style={`--ordem: ${i}`}>
+        <h3>{t.stacks.categorias[grupo.id]}</h3>
+        <ul>
+          {grupo.itens.map((item) => (
+            <li>
+              <Icon name={item.icone} size={18} aria-hidden="true" />
+              <span class="nome">{traduz(item.nome, lang)}</span>
+              <span class="tipo mono">{t.stacks.tipos[item.tipo]}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</div>
+
+<script>
+  import '../scripts/filtro-stacks.ts';
+</script>
+
+<style>
+  .filtros {
+    display: none;
+  }
+
+  :global(.js) .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.1rem;
+    border: 1.5px solid color-mix(in srgb, var(--prata) 65%, var(--grafite));
+    border-radius: 999px;
+    background: transparent;
+    color: var(--prata-2);
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      background-color 0.15s;
+  }
+
+  button:hover {
+    border-color: var(--prata);
+    background: var(--vinho);
+  }
+
+  /* Filtro ativo em bordô, como o botão principal do site. */
+  button[aria-pressed='true'] {
+    border-color: var(--bordo-2);
+    background: var(--bordo-2);
+  }
+
+  .contagem {
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background: rgb(31 26 28 / 0.55);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .grupos {
+    display: grid;
+    gap: 2rem 3rem;
+  }
+
+  h3 {
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--metal);
+    color: var(--prata);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  li {
+    --chanfro: 7px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.85rem;
+    background: var(--vinho);
+    box-shadow: inset 0 1px 0 rgb(212 206 205 / 0.14);
+    clip-path: var(--corte);
+    color: var(--prata-2);
+    font-size: 0.92rem;
+  }
+
+  li :global(svg) {
+    flex: none;
+    color: var(--prata);
+  }
+
+  /* Etiqueta que diferencia linguagem, ferramenta, banco, técnica… */
+  .tipo {
+    padding-left: 0.55rem;
+    border-left: 1px solid var(--metal-2);
+    color: var(--prata);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 52rem) {
+    .grupos {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Com um filtro ativo, o grupo ocupa a largura toda. */
+    .stacks:not([data-filtro-atual='todas']) .grupos {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .grupo:global(.entra) {
+      animation: entra-grupo 0.4s var(--ease-lamina) both;
+    }
+
+    @keyframes entra-grupo {
+      from {
+        opacity: 0;
+        transform: translateY(0.75rem);
+      }
+    }
+  }
+</style>

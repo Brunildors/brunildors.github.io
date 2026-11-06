@@ -1,14 +1,9 @@
 ---
 titulo: Desafio de Kalos
 resumo: Jogo web de batalhas por turnos, inspirado em Pokémon XY, feito com HTML, CSS e JavaScript puro e dados da PokéAPI.
-stack: [HTML, CSS, JavaScript, PokéAPI]
-ordem: 1
-icone: tabler:swords
-destaque: true
 papel: Desenvolvedor
-capa: ../../assets/projetos/desafio-de-kalos/capa.png
-repositorio: https://github.com/Brunildors/Desafio-de-kalos
-demo: https://brunildors.github.io/Desafio-de-kalos/
+demoRotulo: Jogar
+capaAlt: Tela inicial do Desafio de Kalos, com a escolha entre treinadora e treinador
 aviso: Projeto de fã, sem fins lucrativos e sem vínculo com a Nintendo, a Creatures Inc., a GAME FREAK ou a The Pokémon Company. Os dados e as imagens dos Pokémon vêm da PokéAPI.
 ---
 

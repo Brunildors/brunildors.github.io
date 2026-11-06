@@ -1,0 +1,8 @@
+{
+  "ordem": 4,
+  "icone": "tabler:device-tablet",
+  "stack": ["Figma", "UX/UI"],
+  "capa": "../../../assets/projetos/totem/logo-mercado-do-brunildo.png",
+  "capaAjuste": "conter",
+  "demo": "https://fox-gauge-29335593.figma.site/"
+}

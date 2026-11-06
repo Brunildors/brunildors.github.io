@@ -1,0 +1,68 @@
+---
+import { projetosPublicados } from '../data/projetos';
+import { alternativasHome, textos, type Lang } from '../i18n';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Hero from './Hero.astro';
+import Section from './Section.astro';
+import Experience from './Experience.astro';
+import ProjectCard from './ProjectCard.astro';
+import Stacks from './Stacks.astro';
+import Education from './Education.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = textos(lang);
+const projetos = await projetosPublicados(lang);
+const destaque = projetos.find((p) => p.dados.destaque);
+const demais = projetos.filter((p) => p !== destaque);
+---
+
+<BaseLayout {lang} alternativas={alternativasHome} jsonLd>
+  <Header {lang} alternativas={alternativasHome} />
+  <main id="conteudo">
+    <Hero {lang} />
+    <Section id="experiencia" titulo={t.secoes.experiencia}>
+      <Experience {lang} />
+    </Section>
+    <Section id="projetos" titulo={t.secoes.projetos}>
+      {destaque && <ProjectCard {lang} projeto={destaque} destaque ordem={0} />}
+      <ul class="vitrine">
+        {demais.map((projeto, i) => (
+          <li>
+            <ProjectCard {lang} {projeto} ordem={i + 1} />
+          </li>
+        ))}
+      </ul>
+    </Section>
+    <Section id="stacks" titulo={t.secoes.stacks}>
+      <Stacks {lang} />
+    </Section>
+    <Section id="formacao" titulo={t.secoes.formacao}>
+      <Education {lang} />
+    </Section>
+    <Section id="contato" titulo={t.secoes.contato}>
+      <Contact {lang} />
+    </Section>
+  </main>
+  <Footer {lang} />
+</BaseLayout>
+
+<style>
+  .vitrine {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 52rem) {
+    .vitrine {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

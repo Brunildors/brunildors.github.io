@@ -1,18 +1,24 @@
 ---
-import { perfil } from '../data/perfil';
+import { curriculo } from '../data/perfil';
+import { textos, type Lang } from '../i18n';
 import PillLink from './PillLink.astro';
 import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = textos(lang);
 ---
 
 <div class="chamada painel" data-revelar>
-  <p class="frase">Vamos construir algo juntos?</p>
-  <p class="apoio">
-    Se quiser falar sobre um projeto, uma vaga ou só trocar uma ideia, escolha o canal que preferir.
-  </p>
+  <p class="frase">{t.contato.frase}</p>
+  <p class="apoio">{t.contato.apoio}</p>
   <div class="botoes">
     <SocialLinks detalhes />
-    <PillLink href={perfil.cv} icone="tabler:download" primario baixar>
-      Baixar currículo
+    <PillLink href={curriculo[lang]} icone="tabler:download" primario baixar>
+      {t.hero.baixarCurriculo}
     </PillLink>
   </div>
 </div>

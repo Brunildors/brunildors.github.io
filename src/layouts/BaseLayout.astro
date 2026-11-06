@@ -3,29 +3,39 @@ import '../styles/global.css';
 import { Font } from 'astro:assets';
 import { perfil } from '../data/perfil';
 import { perfisPublicos } from '../data/redes';
+import { textos, type Alternativas, type Lang } from '../i18n';
 
 interface Props {
+  lang: Lang;
+  /** A mesma página nos dois idiomas (hreflang). */
+  alternativas?: Alternativas;
   title?: string;
   description?: string;
   noindex?: boolean;
   jsonLd?: boolean;
 }
 
-const {
-  title = `${perfil.nome} | ${perfil.cargo}`,
-  description = perfil.descricao,
-  noindex = false,
-  jsonLd = false,
-} = Astro.props;
+const { lang, alternativas, noindex = false, jsonLd = false } = Astro.props;
+const t = textos(lang);
+const title = Astro.props.title ?? `${perfil.nome} | ${t.perfil.cargo}`;
+const description = Astro.props.description ?? t.perfil.descricao;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/og-image.png', Astro.site);
+const ogImage = new URL(lang === 'en' ? '/og-image-en.png' : '/og-image.png', Astro.site);
+
+const hreflang = alternativas
+  ? [
+      { codigo: 'pt-BR', href: new URL(alternativas.pt, Astro.site) },
+      { codigo: 'en', href: new URL(alternativas.en, Astro.site) },
+      { codigo: 'x-default', href: new URL(alternativas.pt, Astro.site) },
+    ]
+  : [];
 
 const pessoa = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: perfil.nome,
-  jobTitle: perfil.cargo,
+  jobTitle: t.perfil.cargo,
   address: {
     '@type': 'PostalAddress',
     addressLocality: perfil.cidade,
@@ -38,7 +48,7 @@ const pessoa = {
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang={t.html}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,6 +57,9 @@ const pessoa = {
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#1f1a1c" />
     <link rel="canonical" href={canonical} />
+    {hreflang.map((h) => (
+      <link rel="alternate" hreflang={h.codigo} href={h.href} />
+    ))}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {noindex && <meta name="robots" content="noindex" />}
     <Font cssVariable="--fonte-display" preload />
@@ -54,14 +67,14 @@ const pessoa = {
     <Font cssVariable="--fonte-mono" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale" content={t.ogLocale} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(pessoa)} />}
+    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(pessoa)} />}
 
     <!-- As animações de passagem só valem com JavaScript; sem ele a página fica estática e completa. -->
     <script is:inline>
@@ -70,7 +83,7 @@ const pessoa = {
   </head>
   <body>
     <a href="#conteudo" class="pular">
-      Pular para o conteúdo
+      {t.ui.pularConteudo}
     </a>
     <slot />
     <script>

@@ -1,0 +1,154 @@
+---
+import { Font } from 'astro:assets';
+import { perfil } from '../data/perfil';
+import { projetosPublicados } from '../data/projetos';
+import { contatos } from '../data/redes';
+import { stacks } from '../data/stacks';
+import { textos, traduz, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = textos(lang);
+const projetos = await projetosPublicados(lang);
+---
+
+<!doctype html>
+<html lang={t.html}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{perfil.nome} – {t.cv.titulo}</title>
+    <Font cssVariable="--fonte-texto" />
+    <Font cssVariable="--fonte-mono" />
+  </head>
+  <body>
+    <main class="cv">
+      <h1>{perfil.nome}</h1>
+      <p class="sub">
+        {t.perfil.cargo} · {t.perfil.local}
+      </p>
+      <p class="sub contatos">
+        {contatos.map((c, i) => (
+          <>
+            {i > 0 && ' · '}
+            {c.nome}: <a href={c.url}>{c.exibicao}</a>
+          </>
+        ))}
+      </p>
+
+      <h2>{t.cv.resumo}</h2>
+      {t.perfil.bio.map((p) => (
+        <p>{p}</p>
+      ))}
+
+      <h2>{t.cv.experiencia}</h2>
+      {t.experiencias.map((e) => (
+        <div class="item">
+          <p>
+            <strong>{e.cargo}</strong>, {e.empresa} <span class="sub">({e.periodo})</span>
+          </p>
+          <p>{e.resumo}</p>
+        </div>
+      ))}
+
+      <h2>{t.cv.projetos}</h2>
+      <ul>
+        {projetos.map((p) => (
+          <li>
+            <strong>{p.texto.data.titulo}</strong>. {p.texto.data.resumo} ({p.dados.stack.join(', ')})
+          </li>
+        ))}
+      </ul>
+
+      <h2>{t.cv.formacao}</h2>
+      <ul>
+        {t.formacao.itens.map((f) => (
+          <li>
+            {f.curso}, {f.instituicao} ({f.periodo})
+          </li>
+        ))}
+      </ul>
+
+      <h2>{t.cv.cursos}</h2>
+      <ul>
+        {t.cursos.itens.map((c) => (
+          <li>
+            {c.nome}, {c.plataforma}
+          </li>
+        ))}
+      </ul>
+
+      <h2>{t.cv.competencias}</h2>
+      {stacks.map((g) => (
+        <p>
+          <strong>{t.stacks.categorias[g.id]}:</strong> {g.itens.map((i) => traduz(i.nome, lang)).join(', ')}
+        </p>
+      ))}
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @page {
+    size: A4;
+    margin: 11mm;
+  }
+
+  @media print {
+    .cv {
+      padding: 0;
+    }
+  }
+
+  html,
+  body {
+    margin: 0;
+    background: #fff;
+  }
+
+  .cv {
+    max-width: 190mm;
+    margin: 0 auto;
+    padding: 10mm;
+    color: #111;
+    font-family: var(--fonte-texto), system-ui, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.3;
+  }
+
+  .cv h1 {
+    margin: 0;
+    font-size: 20pt;
+  }
+
+  .cv h2 {
+    margin: 8pt 0 4pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid #999;
+    font-size: 11pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cv p,
+  .cv ul {
+    margin: 0 0 4pt;
+  }
+
+  .cv ul {
+    padding-left: 14pt;
+    list-style: disc;
+  }
+
+  .cv a {
+    color: #111;
+  }
+
+  .cv .sub {
+    color: #444;
+  }
+</style>

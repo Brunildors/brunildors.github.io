@@ -1,72 +1,62 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { Image } from 'astro:assets';
+import { rotaProjeto, textos, type Lang } from '../i18n';
+import type { ProjetoPublicado } from '../data/projetos';
+import CapaProjeto from './CapaProjeto.astro';
 import PillLink from './PillLink.astro';
 
 interface Props {
-  slug: string;
-  titulo: string;
-  resumo: string;
-  stack: string[];
-  icone: string;
+  lang: Lang;
+  projeto: ProjetoPublicado;
   /** Card grande, em duas colunas, para o projeto principal. */
   destaque?: boolean;
-  capa?: ImageMetadata;
-  repositorio?: string;
-  demo?: string;
   /** Posição na vitrine, para escalonar a entrada. */
   ordem?: number;
 }
 
-const {
-  slug,
-  titulo,
-  resumo,
-  stack,
-  icone,
-  destaque = false,
-  capa,
-  repositorio,
-  demo,
-  ordem = 0,
-} = Astro.props;
-const largura = destaque ? 640 : 480;
+const { lang, projeto, destaque = false, ordem = 0 } = Astro.props;
+const t = textos(lang);
+const { slug, dados, texto } = projeto;
+const { titulo, resumo, demoRotulo, capaAlt } = texto.data;
+const pagina = rotaProjeto(lang, slug);
 ---
 
 <article class:list={['card', 'painel', { destaque }]} data-revelar style={`--ordem: ${ordem}`}>
   <div class="visual">
-    {capa ? (
-      <Image
-        src={capa}
-        alt={`Tela do projeto ${titulo}`}
-        width={largura}
-        height={Math.round((largura * capa.height) / capa.width)}
+    {dados.capa ? (
+      <CapaProjeto
+        capa={dados.capa}
+        alt={capaAlt ?? `${t.projetos.telaDoProjeto} ${titulo}`}
+        ajuste={dados.capaAjuste}
+        largura={destaque ? 640 : 480}
       />
     ) : (
-      <Icon name={icone} size={destaque ? 56 : 44} aria-hidden="true" />
+      <div class="emblema">
+        <Icon name={dados.icone} size={destaque ? 56 : 44} aria-hidden="true" />
+      </div>
     )}
   </div>
 
   <div class="texto">
-    {destaque && <p class="selo">Projeto em destaque</p>}
+    {destaque && <p class="selo">{t.projetos.destaque}</p>}
     <h3>
-      <a href={`/projetos/${slug}`}>{titulo}</a>
+      <a href={pagina}>{titulo}</a>
     </h3>
     <p class="resumo">{resumo}</p>
-    <p class="tec mono suave">{stack.join(' · ')}</p>
+    <p class="tec mono suave">{dados.stack.join(' · ')}</p>
     <div class="botoes">
-      {demo && (
-        <PillLink href={demo} icone="tabler:player-play" primario>
-          Jogar
+      {dados.demo && (
+        <PillLink href={dados.demo} icone="tabler:player-play" primario>
+          {demoRotulo}
         </PillLink>
       )}
-      {repositorio && (
-        <PillLink href={repositorio} icone="tabler:brand-github">
-          Código no GitHub
+      {dados.repositorio && (
+        <PillLink href={dados.repositorio} icone="tabler:brand-github">
+          {t.projetos.codigoGithub}
         </PillLink>
       )}
-      <PillLink href={`/projetos/${slug}`} icone="tabler:arrow-right">
-        Detalhes
+      <PillLink href={pagina} icone="tabler:arrow-right">
+        {t.projetos.detalhes}
       </PillLink>
     </div>
   </div>
@@ -78,7 +68,6 @@ const largura = destaque ? 640 : 480;
     gap: 1.25rem;
     height: 100%;
     padding: 0;
-    border-top: 0;
     transition: background-color 0.2s;
   }
 
@@ -86,19 +75,13 @@ const largura = destaque ? 640 : 480;
     background: linear-gradient(160deg, var(--vinho), var(--grafite-2));
   }
 
-  /* Área da imagem ou do emblema, com a trama de empunhadura como fundo. */
-  .visual {
+  /* Projeto sem capa: emblema sobre a trama de empunhadura. */
+  .emblema {
     display: grid;
     place-items: center;
-    min-height: 9rem;
+    aspect-ratio: 16 / 9;
     background: var(--tsuka-ito);
     color: var(--prata-2);
-  }
-
-  .visual :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
   .texto {
@@ -144,8 +127,11 @@ const largura = destaque ? 640 : 480;
       gap: 0;
     }
 
-    .destaque .visual {
-      min-height: 100%;
+    /* No card grande a imagem acompanha a altura do texto. */
+    .destaque .visual :global(.capa),
+    .destaque .emblema {
+      height: 100%;
+      aspect-ratio: auto;
     }
 
     .destaque .texto {

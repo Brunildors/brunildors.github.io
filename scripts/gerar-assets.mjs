@@ -59,15 +59,23 @@ const browser = await chromium.launch({ executablePath });
 try {
   mkdirSync('public/cv', { recursive: true });
 
-  const cv = await browser.newPage();
-  await cv.goto(`${base}/cv`, { waitUntil: 'networkidle' });
-  await cv.pdf({ path: 'public/cv/Lucas-Silva-de-Lira-CV.pdf', format: 'A4', printBackground: true });
-  console.log('✔ public/cv/Lucas-Silva-de-Lira-CV.pdf');
+  // Um currículo em PDF e uma imagem de compartilhamento para cada idioma.
+  const idiomas = [
+    { rota: '', pdf: 'Lucas-Silva-de-Lira-CV.pdf', og: 'og-image.png' },
+    { rota: '/en', pdf: 'Lucas-Silva-de-Lira-Resume.pdf', og: 'og-image-en.png' },
+  ];
 
-  const og = await browser.newPage({ viewport: { width: 1200, height: 630 } });
-  await og.goto(`${base}/og`, { waitUntil: 'networkidle' });
-  await og.screenshot({ path: 'public/og-image.png' });
-  console.log('✔ public/og-image.png');
+  for (const { rota, pdf, og } of idiomas) {
+    const cv = await browser.newPage();
+    await cv.goto(`${base}${rota}/cv`, { waitUntil: 'networkidle' });
+    await cv.pdf({ path: `public/cv/${pdf}`, format: 'A4', printBackground: true });
+    console.log(`✔ public/cv/${pdf}`);
+
+    const cartao = await browser.newPage({ viewport: { width: 1200, height: 630 } });
+    await cartao.goto(`${base}${rota}/og`, { waitUntil: 'networkidle' });
+    await cartao.screenshot({ path: `public/${og}` });
+    console.log(`✔ public/${og}`);
+  }
 } finally {
   await browser.close();
   servidor.closeAllConnections();

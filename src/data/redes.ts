@@ -16,14 +16,16 @@ export interface Contato {
   perfilPublico?: boolean;
 }
 
-/** Ordem dos botões no hero e na seção Contato. */
+export const email: Contato = {
+  nome: 'E-mail',
+  exibicao: 'luccassliraa@gmail.com',
+  icone: 'tabler:mail',
+  url: 'mailto:luccassliraa@gmail.com',
+};
+
+/** Ordem dos botões na seção Contato. */
 export const contatos: Contato[] = [
-  {
-    nome: 'E-mail',
-    exibicao: 'luccassliraa@gmail.com',
-    icone: 'tabler:mail',
-    url: 'mailto:luccassliraa@gmail.com',
-  },
+  email,
   {
     nome: 'GitHub',
     exibicao: 'Brunildors',

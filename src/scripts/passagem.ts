@@ -19,17 +19,24 @@ secoes.forEach((secao) => entrada.observe(secao));
 
 const menu = document.querySelector<HTMLElement>('[data-menu]');
 const marcador = menu?.querySelector<HTMLElement>('[data-marcador]');
-const links = menu ? [...menu.querySelectorAll<HTMLAnchorElement>('a[href^="/#"]')] : [];
+const links = menu ? [...menu.querySelectorAll<HTMLAnchorElement>('a[href*="#"]')] : [];
+
+const menosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function posicionar(link: HTMLElement) {
   marcador?.style.setProperty('--x', `${link.offsetLeft}px`);
   marcador?.style.setProperty('--y', `${link.offsetTop + link.offsetHeight - 3}px`);
   marcador?.style.setProperty('--w', `${link.offsetWidth}px`);
+  // no celular o menu rola: mantém o item atual à vista
+  menu?.scrollTo({
+    left: Math.max(0, link.offsetLeft - 24),
+    behavior: menosMovimento.matches ? 'auto' : 'smooth',
+  });
 }
 
 function marcar(id: string) {
   for (const link of links) {
-    if (link.getAttribute('href') === `/#${id}`) {
+    if (link.hash === `#${id}`) {
       link.setAttribute('aria-current', 'location');
       posicionar(link);
     } else {

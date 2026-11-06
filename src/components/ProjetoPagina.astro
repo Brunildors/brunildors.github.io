@@ -1,0 +1,175 @@
+---
+import { render } from 'astro:content';
+import { perfil } from '../data/perfil';
+import type { ProjetoPublicado } from '../data/projetos';
+import { alternativasProjeto, rotaHome, textos, type Lang } from '../i18n';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CapaProjeto from './CapaProjeto.astro';
+import Footer from './Footer.astro';
+import Header from './Header.astro';
+import PillLink from './PillLink.astro';
+
+interface Props {
+  lang: Lang;
+  projeto: ProjetoPublicado;
+}
+
+const { lang, projeto } = Astro.props;
+const t = textos(lang);
+const { slug, dados, texto } = projeto;
+const { titulo, resumo, papel, contexto, aviso, demoRotulo, capaAlt, legendaCapa } = texto.data;
+const { Content } = await render(texto);
+const alternativas = alternativasProjeto(slug);
+---
+
+<BaseLayout {lang} {alternativas} title={`${titulo} | ${perfil.nome}`} description={resumo}>
+  <Header {lang} {alternativas} />
+  <main id="conteudo" class="container">
+    <a href={`${rotaHome(lang)}#projetos`} class="voltar">
+      &larr; {t.projetos.todos}
+    </a>
+    <h1>{titulo}</h1>
+    <span class="lamina" aria-hidden="true"></span>
+    <p class="resumo">{resumo}</p>
+
+    <div class="botoes">
+      {dados.demo && (
+        <PillLink href={dados.demo} icone="tabler:player-play" primario>
+          {demoRotulo}
+        </PillLink>
+      )}
+      {dados.repositorio && (
+        <PillLink href={dados.repositorio} icone="tabler:brand-github">
+          {t.projetos.codigoGithub}
+        </PillLink>
+      )}
+    </div>
+
+    {dados.capa && (
+      <figure class="figura">
+        <div class="moldura">
+          <CapaProjeto
+            capa={dados.capa}
+            alt={capaAlt ?? `${t.projetos.telaDoProjeto} ${titulo}`}
+            ajuste={dados.capaAjuste}
+            largura={900}
+            prioridade
+          />
+        </div>
+        {legendaCapa && <figcaption>{legendaCapa}</figcaption>}
+      </figure>
+    )}
+
+    <dl class="ficha painel">
+      <div>
+        <dt>{t.projetos.meuPapel}</dt>
+        <dd>{papel}</dd>
+      </div>
+      {contexto && (
+        <div>
+          <dt>{t.projetos.contexto}</dt>
+          <dd>{contexto}</dd>
+        </div>
+      )}
+      <div>
+        <dt>{t.projetos.tecnologias}</dt>
+        <dd class="mono">{dados.stack.join(' · ')}</dd>
+      </div>
+    </dl>
+
+    <div class="texto">
+      <Content />
+    </div>
+
+    {aviso && <p class="aviso">{aviso}</p>}
+  </main>
+  <Footer {lang} />
+</BaseLayout>
+
+<style>
+  main {
+    max-width: 46rem;
+    padding-block: 2.5rem 4.5rem;
+  }
+
+  .voltar {
+    font-size: 0.95rem;
+    color: var(--prata);
+  }
+
+  h1 {
+    margin-block: 1.25rem 0.9rem;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .resumo {
+    margin-top: 1.25rem;
+    font-size: 1.15rem;
+    color: var(--prata);
+  }
+
+  .botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .figura {
+    margin: 2rem 0 0;
+  }
+
+  .moldura {
+    border: 1px solid var(--metal-2);
+    clip-path: var(--corte);
+  }
+
+  figcaption {
+    margin-top: 0.6rem;
+    color: var(--prata);
+    font-size: 0.9rem;
+  }
+
+  .ficha {
+    display: grid;
+    gap: 0.9rem;
+    margin: 2rem 0 0;
+  }
+
+  .texto {
+    margin-top: 2rem;
+  }
+
+  .texto :global(h2) {
+    margin-top: 2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .texto :global(p),
+  .texto :global(ul) {
+    margin-top: 0.75rem;
+  }
+
+  .texto :global(ul) {
+    padding-left: 1.2rem;
+    list-style: disc;
+  }
+
+  .texto :global(li) {
+    margin-top: 0.4rem;
+  }
+
+  .aviso {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--metal);
+    color: var(--prata);
+    font-size: 0.9rem;
+  }
+</style>

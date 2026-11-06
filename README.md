@@ -16,15 +16,20 @@ npm run lint
 npm run assets     # gera o PDF do CV e a imagem Open Graph (precisa de Brave, Chrome ou Edge)
 ```
 
+## Idiomas
+
+O site existe em português (`/`) e em inglês (`/en/`), cada um com suas próprias páginas, e o botão PT | EN leva à mesma página no outro idioma. O currículo em PDF também tem as duas versões.
+
 ## Como editar o conteúdo
 
-- Perfil, resumo do topo, experiência, formação, cursos e competências (com ícones): `src/data/perfil.ts`
-- Contatos e redes (e atalhos `/github`, `/linkedin`, `/whatsapp`): `src/data/redes.ts`
-- Projetos: um arquivo `.md` em `src/content/projetos/` (imagens em `src/assets/projetos/<slug>/`).
-  - `repositorio` e `demo` criam os botões "Código no GitHub" e "Jogar"; sem eles, os botões não aparecem.
-  - `destaque: true` faz o projeto virar o card grande da vitrine; `icone` é o emblema usado quando não há capa.
-  - `rascunho: true` esconde o projeto.
-- Depois de mudar o conteúdo, rode `npm run assets` para atualizar o CV em PDF.
+- **Textos do site** (cargo, resumo, experiência, formação, cursos, menus e botões): `src/i18n/pt.ts` e `src/i18n/en.ts`. O inglês é tipado a partir do português: se um texto faltar, o `npm run check` acusa.
+- **Contatos e redes** (e atalhos `/github`, `/linkedin`, `/whatsapp`): `src/data/redes.ts`
+- **Stacks** (tecnologias, função e tipo): `src/data/stacks.ts`
+- **Projetos:** dois arquivos por projeto.
+  - `src/content/projetos/dados/<slug>.json`: o que não muda com o idioma (ordem, ícone, tecnologias, capa, `repositorio` e `demo`). `destaque: true` faz o projeto virar o card grande; `capaAjuste: "conter"` mostra logos inteiros.
+  - `src/content/projetos/textos/pt/<slug>.md` e `.../en/<slug>.md`: título, resumo, rótulo do botão da demo e texto do projeto.
+  - Imagens em `src/assets/projetos/<slug>/`. `rascunho: true` esconde o projeto.
+- Depois de mudar o conteúdo, rode `npm run assets` para atualizar os currículos em PDF (PT e EN) e as imagens de compartilhamento.
 
 ## Pendências antes do lançamento
 

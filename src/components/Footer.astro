@@ -1,16 +1,24 @@
 ---
 import { perfil } from '../data/perfil';
+import { textos, type Lang } from '../i18n';
 import PillLink from './PillLink.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = textos(lang);
 ---
 
 <footer>
   <span class="lamina-fixa" aria-hidden="true"></span>
   <div class="container linha">
     <p class="mono suave">
-      © {new Date().getFullYear()} {perfil.nome} · {perfil.local}
+      © {new Date().getFullYear()} {perfil.nome} · {t.perfil.local}
     </p>
     <PillLink href={perfil.repositorio} icone="tabler:brand-github">
-      Código deste site
+      {t.rodape.codigo}
     </PillLink>
   </div>
 </footer>

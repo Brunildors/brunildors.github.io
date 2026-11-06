@@ -1,0 +1,10 @@
+{
+  "ordem": 1,
+  "destaque": true,
+  "icone": "tabler:swords",
+  "stack": ["HTML", "CSS", "JavaScript", "PokéAPI"],
+  "capa": "../../../assets/projetos/desafio-de-kalos/capa.png",
+  "capaAjuste": "cobrir",
+  "repositorio": "https://github.com/Brunildors/Desafio-de-kalos",
+  "demo": "https://brunildors.github.io/Desafio-de-kalos/"
+}

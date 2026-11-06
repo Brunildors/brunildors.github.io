@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  capa: ImageMetadata;
+  alt: string;
+  /** `cobrir` preenche o quadro (prints). `conter` mostra a imagem inteira, com folga (logos). */
+  ajuste: 'cobrir' | 'conter';
+  /** Largura de exibição, para gerar o tamanho certo da imagem. */
+  largura: number;
+  /** Imagem principal da página: carrega primeiro. */
+  prioridade?: boolean;
+}
+
+const { capa, alt, ajuste, largura, prioridade = false } = Astro.props;
+---
+
+<div class:list={['capa', ajuste]}>
+  <Image
+    src={capa}
+    {alt}
+    width={largura}
+    height={Math.round((largura * capa.height) / capa.width)}
+    loading={prioridade ? 'eager' : 'lazy'}
+    fetchpriority={prioridade ? 'high' : undefined}
+  />
+</div>
+
+<style>
+  /* A imagem fica solta dentro do quadro (position absolute), então ocupa exatamente a caixa. */
+  .capa {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .capa :global(img) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cobrir :global(img) {
+    object-fit: cover;
+  }
+
+  /* Logos: ficam inteiros, com folga, sobre um fundo vinho que valoriza o branco. */
+  .conter {
+    background: radial-gradient(circle at 50% 35%, var(--vinho), var(--grafite));
+  }
+
+  .conter :global(img) {
+    inset: 7%;
+    width: 86%;
+    height: 86%;
+    object-fit: contain;
+  }
+</style>

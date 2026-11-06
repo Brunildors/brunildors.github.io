@@ -1,0 +1,7 @@
+{
+  "ordem": 2,
+  "icone": "tabler:topology-star-3",
+  "stack": ["Claude Code", "Codex", "n8n", "LLMs"],
+  "capa": "../../../assets/projetos/multiagente/workflow-n8n.png",
+  "capaAjuste": "cobrir"
+}
